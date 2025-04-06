@@ -4,4 +4,6 @@ module dev.mccue.boba {
     exports dev.mccue.boba.ansi to dev.mccue.boba.test;
     exports dev.mccue.boba.crossterm to dev.mccue.boba.test;
     requires dev.mccue.wcwidth;
+    requires org.jspecify;
+    requires jdk.unsupported;
 }

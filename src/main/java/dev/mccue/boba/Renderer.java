@@ -67,4 +67,16 @@ public interface Renderer {
     // bracketedPasteActive reports whether bracketed paste mode is
     // currently enabled.
     boolean bracketedPasteActive();
+
+    // Sets the window title.
+    void setWindowTitle(String title);
+
+    // reportFocus reports whether focus reporting is enabled.
+    boolean reportFocus();
+
+    // enableReportFocus enables focus reporting.
+    void enableReportFocus();
+
+    // disableReportFocus disables focus reporting.
+    void disableReportFocus();
 }

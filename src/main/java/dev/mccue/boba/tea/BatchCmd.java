@@ -8,10 +8,10 @@ record BatchCmd(List<Cmd> cmdList) implements Cmd {
         this.cmdList = List.copyOf(cmdList);
     }
 
+    // TODO: re-implement
+
     @Override
-    public void execute(Consumer<? super Msg> onMsg) throws Exception {
-        for (var cmd : cmdList) {
-            cmd.execute(onMsg);
-        }
+    public Msg execute() throws Exception {
+        return null;
     }
 }

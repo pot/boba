@@ -3,10 +3,11 @@ package dev.mccue.boba.simpletea;
 import dev.mccue.boba.tea.Cmd;
 import dev.mccue.boba.tea.Msg;
 import dev.mccue.boba.tea.Program;
+import dev.mccue.boba.tea.UpdateResult;
 
-public class Counter implements Program<Model, String> {
+public class Counter extends Program<Model, String> {
     @Override
-    public Cmd update(Model model, Msg msg) {
+    public UpdateResult<Model> update(Model model, Msg msg) {
         switch (msg) {
             case Increment _ -> {
                 model.count++;
@@ -17,7 +18,7 @@ public class Counter implements Program<Model, String> {
             default -> {}
         }
 
-        return Cmd.none();
+        return new UpdateResult<>(model, null);
     }
 
     @Override

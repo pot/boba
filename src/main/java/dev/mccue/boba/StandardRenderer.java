@@ -1,15 +1,17 @@
 package dev.mccue.boba;
 
-import java.util.EventObject;
+import java.io.IOException;
+import java.io.OutputStream;
 
-@Charm("https://github.com/charmbracelet/bubbletea/blob/491eda41276c3419d519bc8c622725fa587b7e37/nil_renderer.go")
-public final class NilRenderer implements Renderer {
-    private static final NilRenderer INSTANCE = new NilRenderer();
+public class StandardRenderer implements Renderer{
+    private final OutputStream out;
 
-    private NilRenderer() {}
+    public StandardRenderer(OutputStream out) {
+        this.out = out;
+    }
 
-    public static NilRenderer instance() {
-        return INSTANCE;
+    private void execute(String seq) throws IOException {
+        out.write(seq.getBytes());
     }
 
     @Override
@@ -19,6 +21,7 @@ public final class NilRenderer implements Renderer {
 
     @Override
     public void stop() {
+
     }
 
     @Override
@@ -38,7 +41,9 @@ public final class NilRenderer implements Renderer {
 
     @Override
     public void clearScreen() {
-
+        synchronized (this) {
+            // TODO: import ansi
+        }
     }
 
     @Override

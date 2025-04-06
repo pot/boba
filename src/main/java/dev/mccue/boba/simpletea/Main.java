@@ -1,11 +1,21 @@
 package dev.mccue.boba.simpletea;
 
+import dev.mccue.boba.tea.ProgramOpts;
+import sun.misc.Signal;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         var program = new Counter();
         var model = new Model();
+
+        ProgramOpts opts = ProgramOpts.builder()
+                        .build();
+
+        program.run(opts);
+
+
         program.update(model, new Increment());
         program.update(model, new Increment());
         program.update(model, new Increment());
@@ -25,7 +35,5 @@ public class Main {
                 program.update(model, new Increment());
             }
         } while (scanner.hasNextLine());
-
-
     }
 }
