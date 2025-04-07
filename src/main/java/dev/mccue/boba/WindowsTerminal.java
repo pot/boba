@@ -7,7 +7,7 @@ import java.lang.foreign.MemorySegment;
 
 final class WindowsTerminal extends Terminal {
     @Override
-    boolean isTerminal(int fd) {
+    public boolean isTerminal(int fd) {
         var handle = windows_h.GetStdHandle(windows_h.STD_OUTPUT_HANDLE());
         try (var arena = Arena.ofConfined()) {
             var st = arena.allocate(windows_h.C_INT);
@@ -19,7 +19,7 @@ final class WindowsTerminal extends Terminal {
     }
 
     @Override
-    void makeRaw(int fd) {
+    public void makeRaw(int fd) {
         throw new UnsupportedOperationException();
     }
 }

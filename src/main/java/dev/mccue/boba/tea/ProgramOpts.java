@@ -17,7 +17,8 @@ public record ProgramOpts(
         boolean enableMouseCellMotion, // this can be enabled by default and enabled and disabled at runtime
         boolean withoutRenderer,
         int fps,
-        boolean reportFocusChange
+        boolean reportFocusChange,
+        String startupTitle
 
 ) {
     private static final int MIN_FPS = 60;
@@ -39,6 +40,7 @@ public record ProgramOpts(
         private boolean withoutRenderer = false;
         private int fps = MIN_FPS;
         private boolean reportFocusChange = true;
+        private String startupTitle = "";
 
         public Builder output(OutputStream output) {
             this.output = output;
@@ -97,6 +99,11 @@ public record ProgramOpts(
             return this;
         }
 
+        public Builder startupTitle(String startupTitle) {
+            this.startupTitle = startupTitle;
+            return this;
+        }
+
         public ProgramOpts build() {
             return new ProgramOpts(
                     output,
@@ -109,7 +116,8 @@ public record ProgramOpts(
                     enableMouseCellMotion,
                     withoutRenderer,
                     fps,
-                    reportFocusChange
+                    reportFocusChange,
+                    startupTitle
             );
         }
     }

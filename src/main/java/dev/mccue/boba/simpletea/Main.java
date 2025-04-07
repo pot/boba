@@ -1,39 +1,22 @@
 package dev.mccue.boba.simpletea;
 
+import dev.mccue.ansi.Screen;
 import dev.mccue.boba.tea.ProgramOpts;
 import sun.misc.Signal;
 
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         var program = new Counter();
         var model = new Model();
 
         ProgramOpts opts = ProgramOpts.builder()
-                        .build();
+                .startupTitle("hey")
+                .build();
 
-        program.run(opts);
-
-
-        program.update(model, new Increment());
-        program.update(model, new Increment());
-        program.update(model, new Increment());
-
-        var scanner = new Scanner(System.in);
-        do {
-            System.out.print("\u001b[2J\u001b[H");
-            System.out.println(
-                    program.view(model)
-            );
-            System.out.println();
-            if ("d".equals(scanner.nextLine())) {
-                program.update(model, new Decrement());
-                System.out.println("abc");
-            }
-            else if ("i".equals(scanner.nextLine())) {
-                program.update(model, new Increment());
-            }
-        } while (scanner.hasNextLine());
+        program.run(model, opts);
+        System.out.println("Program finished.");
     }
 }

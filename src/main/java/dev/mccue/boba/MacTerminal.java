@@ -6,11 +6,13 @@ import dev.mccue.boba.org.apache.commons.lang3.SystemUtils;
 
 import java.lang.foreign.Arena;
 
+import static dev.mccue.boba.crossterm.Unix.isatty;
+
 final class MacTerminal extends Terminal {
     MacTerminal() {}
 
     @Override
-    boolean isTerminal(int fd) {
+    public boolean isTerminal(int fd) {
         var invoker = ioctl_h.ioctl.makeInvoker(termios.layout());
         try (var arena = Arena.ofConfined()) {
             var t = termios.allocate(arena);
@@ -20,7 +22,7 @@ final class MacTerminal extends Terminal {
     }
 
     @Override
-    void makeRaw(int fd) {
+    public void makeRaw(int fd) {
         try (var arena = Arena.ofConfined()) {
             var t = termios.allocate(arena);
             var invoker = ioctl_h.ioctl.makeInvoker(termios.layout());
@@ -28,13 +30,13 @@ final class MacTerminal extends Terminal {
 
             var iflag = termios.c_iflag(t);
             iflag &= ~(ioctl_h.IGNBRK()
-                     | ioctl_h.BRKINT()
-                     | ioctl_h.PARMRK()
-                     | ioctl_h.ISTRIP()
-                     | ioctl_h.INLCR()
-                     | ioctl_h.IGNCR()
-                     | ioctl_h.ICRNL()
-                     | ioctl_h.IXON());
+                    | ioctl_h.BRKINT()
+                    | ioctl_h.PARMRK()
+                    | ioctl_h.ISTRIP()
+                    | ioctl_h.INLCR()
+                    | ioctl_h.IGNCR()
+                    | ioctl_h.ICRNL()
+                    | ioctl_h.IXON());
             termios.c_iflag(t, iflag);
 
             var oflag = termios.c_oflag(t);
@@ -52,6 +54,9 @@ final class MacTerminal extends Terminal {
 
             termios.c_cc(t, ioctl_h.VMIN(), (byte) 1);
             termios.c_cc(t, ioctl_h.VTIME(), (byte) 0);
+
+            // apply profile to terminal
+            invoker.apply(fd, ioctl_h.TIOCSETA(), t);
         }
     }
 }

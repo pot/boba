@@ -41,6 +41,11 @@
             <artifactId>icu4j</artifactId>
             <version>74.2</version>
         </dependency>
+        <dependency>
+            <groupId>dev.mccue</groupId>
+            <artifactId>ansi</artifactId>
+            <version>2024.10.09</version>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>

@@ -27,7 +27,6 @@ public sealed abstract class Terminal
     }
 
 
-    abstract boolean isTerminal(int fd);
-
-    abstract void makeRaw(int fd);
+    public abstract boolean isTerminal(int fd);
+    public abstract void makeRaw(int fd);
 }

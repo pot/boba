@@ -7,7 +7,7 @@ import java.lang.foreign.Arena;
 
 final class LinuxTerminal extends Terminal {
     @Override
-    boolean isTerminal(int fd) {
+    public boolean isTerminal(int fd) {
         var invoker = ioctl_h.ioctl.makeInvoker(termios.layout());
         try (var arena = Arena.ofConfined()) {
             var t = termios.allocate(arena);
@@ -17,7 +17,7 @@ final class LinuxTerminal extends Terminal {
     }
 
     @Override
-    void makeRaw(int fd) {
+    public void makeRaw(int fd) {
         try (var arena = Arena.ofConfined()) {
             var t = termios.allocate(arena);
             var invoker = ioctl_h.ioctl.makeInvoker(termios.layout());

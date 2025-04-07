@@ -1,5 +1,7 @@
 package dev.mccue.boba;
 
+import dev.mccue.boba.tea.Msg;
+
 import java.util.EventObject;
 
 @Charm("https://github.com/charmbracelet/bubbletea/blob/491eda41276c3419d519bc8c622725fa587b7e37/nil_renderer.go")
@@ -129,5 +131,9 @@ public final class NilRenderer implements Renderer {
     @Override
     public void disableReportFocus() {
 
+    }
+
+    @Override
+    public void handleMessages(Msg msg) {
     }
 }

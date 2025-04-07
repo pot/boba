@@ -12,10 +12,6 @@ public interface Cmd {
      */
     Msg execute() throws Exception;
 
-    static Cmd none() {
-        return new NoneCmd();
-    }
-
     static Cmd batch(Cmd... cmds) {
         var cmdsArrayList = new ArrayList<Cmd>();
         for (var cmd : cmds) {
@@ -26,6 +22,7 @@ public interface Cmd {
                 cmdsArrayList.add(cmd);
             }
         }
+
         return new BatchCmd(cmdsArrayList);
     }
 }
