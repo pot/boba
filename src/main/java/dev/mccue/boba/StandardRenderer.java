@@ -62,6 +62,8 @@ public class StandardRenderer implements Renderer {
                 return;
             }
 
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
             if (altScreen) {
                 buffer.writeBytes(Cursor.CURSOR_HOME_POSITION.getBytes(StandardCharsets.UTF_8));
             } else if (linesRendered > 1) {
@@ -74,9 +76,6 @@ public class StandardRenderer implements Renderer {
             }
 
             for (int i = 0; i < newLines.size(); i++) {
-                boolean canSkip = lastRenderedLines.size() > i && lastRenderedLines.get(i).equalsIgnoreCase(newLines.get(i));
-
-                // TODO: ignore lines handling
                 if (i == 0 && lastRender.isEmpty()) {
                     buffer.writeBytes("\r".getBytes(StandardCharsets.UTF_8));
                 }
@@ -118,7 +117,7 @@ public class StandardRenderer implements Renderer {
 
             lastRender = buffer.toString();
             lastRenderedLines = newLines;
-            buffer.reset();
+            this.buffer.reset();
         }
     }
 
