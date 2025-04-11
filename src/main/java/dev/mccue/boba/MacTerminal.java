@@ -2,11 +2,15 @@ package dev.mccue.boba;
 
 import dev.mccue.boba.c.mac.ioctl_h;
 import dev.mccue.boba.c.mac.termios;
+import dev.mccue.boba.c.mac.winsize;
 import dev.mccue.boba.org.apache.commons.lang3.SystemUtils;
 
 import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.ValueLayout;
 
 import static dev.mccue.boba.crossterm.Unix.isatty;
+import static java.lang.foreign.ValueLayout.*;
 
 final class MacTerminal extends Terminal {
     MacTerminal() {}
@@ -57,6 +61,22 @@ final class MacTerminal extends Terminal {
 
             // apply profile to terminal
             invoker.apply(fd, ioctl_h.TIOCSETA(), t);
+        }
+    }
+
+    @Override
+    public TerminalSize getTerminalSize() {
+        try (var arena = Arena.ofConfined()) {
+            MemorySegment size = winsize.allocate(arena);
+            ioctl_h.ioctl ioctl = ioctl_h.ioctl.makeInvoker(ADDRESS);
+            ioctl.descriptor().argumentLayouts().forEach(arg -> {
+                //System.err.println("Arg type: " + arg.toString());
+            });
+            ioctl.apply(0, ioctl_h.TIOCGWINSZ(), size);
+
+            System.err.println("Row: " + winsize.ws_row(size));
+            System.err.println("Col: " + winsize.ws_col(size));
+            return new TerminalSize(winsize.ws_row(size), winsize.ws_col(size));
         }
     }
 }

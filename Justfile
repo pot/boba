@@ -6,6 +6,7 @@ extract_mac:
         --output src/main/java \
         --target-package dev.mccue.boba.c.mac \
         --include-struct termios \
+        --include-struct winsize \
         --include-function ioctl \
         --include-function tcgetattr \
         --include-function tcsetattr \
@@ -60,6 +61,7 @@ extract_mac:
         --include-constant PENDIN \
         --include-constant TIOCGETA \
         --include-constant TIOCSETA \
+        --include-constant TIOCGWINSZ \
         --include-constant TCGETS \
         --include-constant TCSETS \
         --include-constant IGNBRK \

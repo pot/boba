@@ -3,11 +3,10 @@ package dev.mccue.boba.tea;
 import dev.mccue.boba.Renderer;
 import dev.mccue.boba.StandardRenderer;
 import dev.mccue.boba.Terminal;
+import dev.mccue.boba.TerminalSize;
 import sun.misc.Signal;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -21,7 +20,6 @@ public abstract class Program<Model, View extends String> {
     protected abstract UpdateResult<Model> update(Model model, Msg msg);
     protected abstract View view(Model model);
 
-    @SuppressWarnings("result ignored")
     public Model run(Model model, ProgramOpts opts) {
         // this might not support any other input and output streams than the default ones
         // we will support another mode of input like tty later
@@ -38,7 +36,6 @@ public abstract class Program<Model, View extends String> {
 
         // we need the input and output both to be raw
         terminal.makeRaw(0);
-        //terminal.makeRaw(1);
 
         // rn we will assume that its running inside a terminal but in the future we need to handle everything
         // because I don't know if using an InputStream will be sufficient or if we should switch to the reader
@@ -56,13 +53,14 @@ public abstract class Program<Model, View extends String> {
 
         Signal.handle(new Signal("WINCH"), signal -> {
             processCmd(() -> {
-                System.out.println("UPDATED WIDTH AND HEIGHT");
-                return null;
+                // TODO: update
+                TerminalSize terminalSize = terminal.getTerminalSize();
+                return new Msg.WindowSizeMsg(terminalSize.height(), terminalSize.width());
             });
         });
 
         // TODO: allow configurable renderer
-        renderer = new StandardRenderer(opts.output());
+        renderer = new StandardRenderer(opts.output(), opts.fps());
         renderer.hideCursor();
 
         if (!opts.startupTitle().isEmpty()) {
@@ -86,13 +84,29 @@ public abstract class Program<Model, View extends String> {
             renderer.enableReportFocus();
         }
 
+        File errFile = new File("err.txt");
+        FileOutputStream ops;
+        try {
+            ops = new FileOutputStream(errFile);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        PrintStream ps = new PrintStream(ops, true);
+        System.setErr(ps);
+
+        // set initial size inside the renderer
+        processCmd(() -> {
+            TerminalSize terminalSize = terminal.getTerminalSize();
+            return new Msg.WindowSizeMsg(terminalSize.height(), terminalSize.width());
+        });
+
         renderer.start();
         renderer.write(view(model));
 
         if (opts.input() != null) {
             Thread.startVirtualThread(() -> handleUserInput(opts.input()));
         }
-        // TODO; listen for user input
+
         Model finalModel;
         try {
             finalModel = eventLoop(model);
@@ -164,10 +178,6 @@ public abstract class Program<Model, View extends String> {
         });
     }
 
-    private Msg handleResize() {
-        return null; // TEMP:
-    }
-
     private void handleUserInput(InputStream in) {
         while (true) {
             try {
@@ -177,10 +187,7 @@ public abstract class Program<Model, View extends String> {
                     continue;
                 }
 
-                processCmd(() -> {
-                    System.out.println("Input " + (char) input);
-                    return null;
-                });
+                processCmd(() -> new Msg.KeyClickMsg((char) input));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -1,5 +1,6 @@
 package dev.mccue.boba.simpletea;
 
+import dev.mccue.ansi.Screen;
 import dev.mccue.boba.tea.Cmd;
 import dev.mccue.boba.tea.Msg;
 import dev.mccue.boba.tea.Program;
@@ -15,6 +16,15 @@ public class Counter extends Program<Model, String> {
             case Decrement _ -> {
                 model.count--;
             }
+            case Msg.KeyClickMsg(char key) -> {
+                if (key == 'w') {
+                    model.count++;
+                } else if (key == 's') {
+                    model.count--;
+                } else if (key == 'q') {
+                    System.exit(0);
+                }
+            }
             default -> {}
         }
 
@@ -23,6 +33,6 @@ public class Counter extends Program<Model, String> {
 
     @Override
     public String view(Model model) {
-        return Integer.toString(model.count);
+        return Screen.ERASE_ENTIRE_SCREEN + "Count: " + model.count + "\n'w' to increment, 's' to decrement, 'q' to quit\n";
     }
 }

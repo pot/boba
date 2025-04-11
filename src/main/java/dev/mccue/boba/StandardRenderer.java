@@ -1,9 +1,6 @@
 package dev.mccue.boba;
 
-import dev.mccue.ansi.C0;
-import dev.mccue.ansi.Cursor;
-import dev.mccue.ansi.Mode;
-import dev.mccue.ansi.Screen;
+import dev.mccue.ansi.*;
 import dev.mccue.ansi.parser.Width;
 import dev.mccue.boba.tea.Msg;
 import dev.mccue.wcwidth.WCWidth;
@@ -13,30 +10,42 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class StandardRenderer implements Renderer {
     private final OutputStream out;
-    private ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    private String[] queuedMessageLines;
-    private boolean altScreen = false;
-    private boolean cursorHidden = false; // no idea what this should be by default TODO
-    private int linesRendered = 0;
-    private int altLinesRendered = 0;
-    private String lastRender; // used to check for any differences in the render
-    private String[] lastRenderedLines;
-    private boolean bracketedPaste = false;
-    private boolean reportFocus;
+    private final int fps;
 
+    private Timer timer; // timer that calls the flush function (started based on fps)
+    private final AtomicBoolean running = new AtomicBoolean(false); // ensure we only stop the timer once
+
+    // set via the update received msg
     private int height;
     private int width;
 
-    public StandardRenderer(OutputStream out) {
+    private final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+    private boolean altScreen = false;
+    private boolean cursorHidden = false; // default value doesn't matter since it's set initially in the Program
+    private boolean bracketedPaste = false;
+    private boolean reportFocus;
+
+    private int linesRendered = 0;
+    private int altLinesRendered = 0;
+    private String lastRender = ""; // used to check for any differences in the render
+    private List<String> lastRenderedLines = new ArrayList<>();
+
+    public StandardRenderer(OutputStream out, int fps) {
         this.out = out;
+        this.fps = fps;
     }
 
+    /**
+     * Immediately writes a command/string sequence to the output buffer.
+     *
+     * @param seq the string sequence that will be written
+     */
     private void execute(String seq) {
         try {
             out.write(seq.getBytes());
@@ -64,22 +73,8 @@ public class StandardRenderer implements Renderer {
                 newLines = newLines.subList(newLines.size() - height, newLines.size());
             }
 
-            boolean flushQueuedMessages = queuedMessageLines.length > 0 && !altScreen;
-            if (flushQueuedMessages) {
-                for (String line : queuedMessageLines) {
-                    if (Width.width(line) < width) {
-                        line += Screen.ERASE_LINE_RIGHT;
-                    }
-
-                    buffer.writeBytes(line.getBytes(StandardCharsets.UTF_8));
-                    buffer.writeBytes("\r\n".getBytes(StandardCharsets.UTF_8));
-                }
-
-                queuedMessageLines = new String[]{};
-            }
-
             for (int i = 0; i < newLines.size(); i++) {
-                boolean canSkip = !flushQueuedMessages && lastRenderedLines.length > i && lastRenderedLines[i].equalsIgnoreCase(newLines.get(i));
+                boolean canSkip = lastRenderedLines.size() > i && lastRenderedLines.get(i).equalsIgnoreCase(newLines.get(i));
 
                 // TODO: ignore lines handling
                 if (i == 0 && lastRender.isEmpty()) {
@@ -87,13 +82,69 @@ public class StandardRenderer implements Renderer {
                 }
 
                 String line = newLines.get(i);
+                if (width > 0) {
+                    line = Truncate.truncate(line, width, "");
+                }
+
+                if (Width.width(line) < width) {
+                    line += Screen.ERASE_LINE_RIGHT;
+                }
+
+                // we need to trunacate some stuff here
+                buffer.writeBytes(line.getBytes(StandardCharsets.UTF_8));
+
+                if (i < newLines.size() - 1) {
+                    buffer.writeBytes("\r\n".getBytes(StandardCharsets.UTF_8));
+                }
             }
+
+            if (lastRenderedLines.size() > newLines.size()) {
+                buffer.writeBytes(Screen.ERASE_SCREEN_BELOW.getBytes(StandardCharsets.UTF_8));
+            }
+
+            if (altScreen) {
+                buffer.writeBytes(Cursor.cursorPosition(0, newLines.size()).getBytes(StandardCharsets.UTF_8));
+                altLinesRendered = newLines.size();
+            } else {
+                buffer.writeBytes(Cursor.cursorBackward(width).getBytes(StandardCharsets.UTF_8));
+                linesRendered = newLines.size();
+            }
+
+            try {
+                out.write(buffer.toByteArray());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            lastRender = buffer.toString();
+            lastRenderedLines = newLines;
+            buffer.reset();
         }
     }
 
     @Override
     public void start() {
+        if (timer == null) {
+            timer = new Timer();
+        }
 
+        running.set(true);
+
+        timer.scheduleAtFixedRate(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (!running.get()) {
+                            timer.cancel();
+                            return;
+                        }
+
+                        flush();
+                    }
+                },
+                0,
+                1000 / fps
+        );
     }
 
     @Override
@@ -117,13 +168,12 @@ public class StandardRenderer implements Renderer {
     @Override
     public void repaint() {
         lastRender = "";
-        lastRenderedLines = null;
+        lastRenderedLines = new ArrayList<>();
     }
 
     @Override
     public void clearScreen() {
         synchronized (this) {
-            // TODO: import ansi
             execute(Screen.ERASE_ENTIRE_SCREEN);
             execute(Cursor.CURSOR_HOME_POSITION);
 

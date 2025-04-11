@@ -51,4 +51,9 @@ final class LinuxTerminal extends Terminal {
             termios.c_cc(t, ioctl_h.VTIME(), (byte) 0);
         }
     }
+
+    @Override
+    public TerminalSize getTerminalSize() {
+        return null;
+    }
 }
