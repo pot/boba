@@ -21,7 +21,7 @@ public record ProgramOpts(
         String startupTitle
 
 ) {
-    private static final int MIN_FPS = 60;
+    private static final int MIN_FPS = 1;
     private static final int MAX_FPS = 120;
 
     public static Builder builder() {
