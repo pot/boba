@@ -47,6 +47,12 @@
             <version>2024.10.09</version>
         </dependency>
 
+        <!-- Used for tic tac toe only -->
+        <dependency>
+            <groupId>dev.mccue</groupId>
+            <artifactId>color-terminal</artifactId>
+            <version>2024.11.20</version>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>

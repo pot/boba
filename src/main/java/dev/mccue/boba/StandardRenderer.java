@@ -89,7 +89,7 @@ public class StandardRenderer implements Renderer {
                     line += Screen.ERASE_LINE_RIGHT;
                 }
 
-                // we need to trunacate some stuff here
+                // we need to truncate some stuff here
                 buffer.writeBytes(line.getBytes(StandardCharsets.UTF_8));
 
                 if (i < newLines.size() - 1) {
@@ -105,7 +105,7 @@ public class StandardRenderer implements Renderer {
                 buffer.writeBytes(Cursor.cursorPosition(0, newLines.size()).getBytes(StandardCharsets.UTF_8));
                 altLinesRendered = newLines.size();
             } else {
-                buffer.writeBytes(Cursor.cursorBackward(width).getBytes(StandardCharsets.UTF_8));
+                buffer.writeBytes("\r".getBytes(StandardCharsets.UTF_8));
                 linesRendered = newLines.size();
             }
 

@@ -33,6 +33,6 @@ public class Counter extends Program<Model, String> {
 
     @Override
     public String view(Model model) {
-        return "Count: " + model.count + "\n'w' to increment, 's' to decrement, 'q' to quit\n";
+        return "Count: " + model.count + "\n'w' to increment, 's' to decrement, 'q' to quit";
     }
 }

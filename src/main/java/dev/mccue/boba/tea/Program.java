@@ -5,9 +5,12 @@ import dev.mccue.boba.StandardRenderer;
 import dev.mccue.boba.Terminal;
 import dev.mccue.boba.TerminalSize;
 import sun.misc.Signal;
+import sun.misc.Unsafe;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -38,22 +41,22 @@ public abstract class Program<Model, View extends String> {
         terminal.makeRaw(0);
 
         // rn we will assume that its running inside a terminal but in the future we need to handle everything
-        // because I don't know if using an InputStream will be sufficient or if we should switch to the reader
-        // and writer in System.Console()
+        // from my testing, I don't think these signals are ever sent (even when terminal is closed forcefully)
         if (!opts.useDefaultSignalHandler()) {
-            Signal.handle(new Signal("INT"), signal -> {
+            Signal.handle(new Signal("INT"), _ -> {
                 // always will be successfully since uncapped queue
+                System.err.println("INTERUPT sent");
                 msgQueue.offer(new Msg.InteruptMsg());
             });
 
-            Signal.handle(new Signal("TERM"), signal -> {
+            Signal.handle(new Signal("TERM"), _ -> {
+                System.err.println("TERMINATED sent");
                 msgQueue.offer(new Msg.QuitMsg());
             });
         }
 
-        Signal.handle(new Signal("WINCH"), signal -> {
+        Signal.handle(new Signal("WINCH"), _ -> {
             processCmd(() -> {
-                // TODO: update
                 TerminalSize terminalSize = terminal.getTerminalSize();
                 return new Msg.WindowSizeMsg(terminalSize.height(), terminalSize.width());
             });
@@ -87,10 +90,12 @@ public abstract class Program<Model, View extends String> {
         File errFile = new File("err.txt");
         FileOutputStream ops;
         try {
+            Files.write(errFile.toPath(), "".getBytes(Charset.defaultCharset()));
             ops = new FileOutputStream(errFile);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         PrintStream ps = new PrintStream(ops, true);
         System.setErr(ps);
 

@@ -6,4 +6,5 @@ module dev.mccue.boba {
     requires jdk.unsupported;
     requires dev.mccue.ansi;
     requires dev.mccue.wcwidth;
+    requires dev.mccue.color.terminal;
 }
