@@ -9,7 +9,7 @@ import dev.mccue.boba.tea.UpdateResult;
 import dev.mccue.color.terminal.ANSIColor;
 import dev.mccue.color.terminal.TerminalStyle;
 
-public class TicTacToe extends Program<TicTacToeModel, String> {
+public class TicTacToe extends Program<TicTacToeModel> {
 
     @Override
     public UpdateResult<TicTacToeModel> update(TicTacToeModel model, Msg msg) {

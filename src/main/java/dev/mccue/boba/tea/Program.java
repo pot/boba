@@ -16,12 +16,12 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 // TODO: this needs to be stateful and should likely be an abstract class instead
-public abstract class Program<Model, View extends String> {
+public abstract class Program<Model> {
     private final BlockingQueue<Msg> msgQueue = new LinkedBlockingQueue<>();
     private Renderer renderer;
 
     protected abstract UpdateResult<Model> update(Model model, Msg msg);
-    protected abstract View view(Model model);
+    protected abstract String view(Model model);
 
     public Model run(Model model, ProgramOpts opts) {
         // this might not support any other input and output streams than the default ones

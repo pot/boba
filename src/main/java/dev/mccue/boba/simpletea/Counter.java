@@ -6,7 +6,7 @@ import dev.mccue.boba.tea.Msg;
 import dev.mccue.boba.tea.Program;
 import dev.mccue.boba.tea.UpdateResult;
 
-public class Counter extends Program<Model, String> {
+public class Counter extends Program<Model> {
     @Override
     public UpdateResult<Model> update(Model model, Msg msg) {
         switch (msg) {
