@@ -124,7 +124,7 @@ public abstract class Program<Model> {
         renderer.write(view(finalModel));
 
         // TODO: for now terminal back to cooked mode here
-
+        terminal.makeCooked(0);
 
         return finalModel;
     }

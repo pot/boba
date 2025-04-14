@@ -1,0 +1,43 @@
+name: Extract Native Headers
+
+on:
+  workflow_dispatch:
+
+jobs:
+  extract:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        include:
+          - os: macos-latest
+            task: extract_mac
+          - os: ubuntu-latest
+            task: extract_linux
+          - os: windows-latest
+            task: extract_windows
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: cd core
+
+      - name: Install Just
+        uses: extractions/setup-just@v1
+
+      - uses: sdkman/sdkman-action@v1
+        id: sdkman
+        with:
+          candidate: jextract
+
+      - name: Run extract task
+        run: just extract_${{ matrix.task }}
+
+      - name: Commit changes
+        run: |
+          git add src/**/*
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "Update generated native bindings" || echo "No changes to commit"
+          git push

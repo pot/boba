@@ -65,7 +65,9 @@ final class MacTerminal extends Terminal {
 
     @Override
     public void makeCooked(int fd) {
-
+        try (Arena arena = Arena.ofConfined()) {
+            ioctl_h.ioctl ioctl = ioctl_h.ioctl.makeInvoker(ADDRESS);
+        }
     }
 
     @Override
