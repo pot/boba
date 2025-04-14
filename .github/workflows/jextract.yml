@@ -38,6 +38,6 @@ jobs:
 
       - name: Run extract task
         run: |
-          just extract_${{ matrix.task }}
+          just ${{ matrix.task }}
 
       - uses: stefanzweifel/git-auto-commit-action@v5
