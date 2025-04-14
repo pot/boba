@@ -30,11 +30,7 @@ jobs:
       - name: Configure environment
         shell: bash
         run: |
-          echo "$HOME/.sdkman/bin" >> $GITHUB_PATH
-
-      - name: Add jextract to PATH
-        run: echo "$HOME/.sdkman/candidates/jextract/22.ea.6/bin" >> $GITHUB_PATH
-        shell: bash
+          echo "${{ steps.sdkman.outputs.path }}" >> $GITHUB_PATH
 
       - name: Run extract task
         run: |
@@ -42,3 +38,4 @@ jobs:
           just ${{ matrix.task }}
 
       - uses: stefanzweifel/git-auto-commit-action@v5
+        commit_message: Updated native headers for ${{ matrix.os }}
