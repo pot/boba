@@ -26,13 +26,15 @@ jobs:
       - name: Install Just
         uses: extractions/setup-just@v1
 
-      - uses: sdkman/sdkman-action@v1
+      - uses: sdkman/sdkman-action@main
         id: sdkman
         with:
           candidate: jextract
           version: 22.ea.6
 
       - name: Run extract task
-        run: just extract_${{ matrix.task }}
+        run: |
+          source $HOME/.sdkman/bin/sdkman-init.sh
+          just extract_${{ matrix.task }}
 
       - uses: stefanzweifel/git-auto-commit-action@v5
