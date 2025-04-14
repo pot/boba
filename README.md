@@ -39,3 +39,4 @@ public class Counter extends Program<Model> {
 - [ ] Non char inputs (arrow keys, control, combinations, ect..)
 - [ ] Mouse scrolling support
 - [ ] Layout API
+- [ ] Min win size option. Can stop movement with native code by settings win size

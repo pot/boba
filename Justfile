@@ -1,19 +1,6 @@
 help:
     @just --list
 
-run:
-    mvn clean
-    mvn package -DskipTests
-    mvn dependency:copy-dependencies
-    clear
-    @java -p target/dependency:target/classes --enable-native-access=dev.mccue.boba -m dev.mccue.boba/dev.mccue.boba.simpletea.Main
-run-tct:
-    mvn clean
-    mvn package -DskipTests
-    mvn dependency:copy-dependencies
-    clear
-    @java -p target/dependency:target/classes --enable-native-access=dev.mccue.boba -m dev.mccue.boba/dev.mccue.boba.tictactoe.Main
-
 extract_mac:
     jextract \
         --output src/main/java \
@@ -104,6 +91,7 @@ extract_linux:
         --output src/main/java \
         --target-package dev.mccue.boba.c.linux \
         --include-struct termios \
+        --include-struct winsize \
         --include-function ioctl \
         --include-function tcgetattr \
         --include-function tcsetattr \
@@ -137,6 +125,7 @@ extract_linux:
         --include-constant IMAXBEL \
         --include-constant OPOST \
         --include-constant ONLCR \
+        --include-constant TIOCGWINSZ \
         --include-constant OCRNL \
         --include-constant ONOCR \
         --include-constant ONLRET \

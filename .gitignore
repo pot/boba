@@ -41,3 +41,4 @@ build/
 ### Used for debugging ###
 err.txt
 
+**/*.err.txt

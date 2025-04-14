@@ -1,0 +1,16 @@
+help:
+    @just --list
+
+run-counter:
+    cd counter && mvn clean
+    cd counter && mvn package -DskipTests
+    cd counter && mvn dependency:copy-dependencies
+    clear
+    @cd counter && java -p target/dependency:target/classes --enable-native-access=dev.mccue.boba -m dev.mccue.boba.counter/dev.mccue.boba.counter.Main
+
+run-tct:
+    cd counter && mvn clean
+    cd counter && mvn package -DskipTests
+    mvn dependency:copy-dependencies
+    clear
+    @cd counter && java -p target/dependency:target/classes --enable-native-access=dev.mccue.boba -m dev.mccue.boba.tictactoe/dev.mccue.boba.tictactoe.Main
