@@ -7,12 +7,14 @@ jobs:
   extract:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
         include:
           - os: macos-latest
             task: extract_mac
           - os: ubuntu-latest
             task: extract_linux
+          - os: windows-latest
+            task: extract_windows
 
     runs-on: ${{ matrix.os }}
 
@@ -38,4 +40,5 @@ jobs:
           just ${{ matrix.task }}
 
       - uses: stefanzweifel/git-auto-commit-action@v5
-        commit_message: Updated native headers for ${{ matrix.os }}
+        with:
+          commit_message: Updated native headers for ${{ matrix.os }}
