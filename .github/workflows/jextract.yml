@@ -30,14 +30,9 @@ jobs:
         id: sdkman
         with:
           candidate: jextract
+          version: 22.ea.6
 
       - name: Run extract task
         run: just extract_${{ matrix.task }}
 
-      - name: Commit changes
-        run: |
-          git add src/**/*
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git commit -m "Update generated native bindings" || echo "No changes to commit"
-          git push
+      - uses: stefanzweifel/git-auto-commit-action@v5
