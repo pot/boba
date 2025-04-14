@@ -21,8 +21,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: cd core
-
       - name: Install Just
         uses: extractions/setup-just@v1
 
@@ -38,6 +36,7 @@ jobs:
 
       - name: Run extract task
         run: |
+          cd core
           just ${{ matrix.task }}
 
       - uses: stefanzweifel/git-auto-commit-action@v5
