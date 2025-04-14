@@ -7,14 +7,12 @@ jobs:
   extract:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest]
         include:
           - os: macos-latest
             task: extract_mac
           - os: ubuntu-latest
             task: extract_linux
-          - os: windows-latest
-            task: extract_windows
 
     runs-on: ${{ matrix.os }}
 
