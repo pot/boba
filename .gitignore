@@ -38,5 +38,6 @@ build/
 ### Mac OS ###
 .DS_Store
 
+### Used for debugging ###
 err.txt
 
