@@ -86,6 +86,15 @@ public class ioctl_h {
     public static int TCSETS() {
         return TCSETS;
     }
+    private static final int TIOCGWINSZ = (int)21523L;
+    /**
+     * {@snippet lang=c :
+     * #define TIOCGWINSZ 21523
+     * }
+     */
+    public static int TIOCGWINSZ() {
+        return TIOCGWINSZ;
+    }
     private static final int EBADF = (int)9L;
     /**
      * {@snippet lang=c :
@@ -612,6 +621,13 @@ public class ioctl_h {
         }
 
         /**
+         * {@return the address}
+         */
+        public static MemorySegment address() {
+            return ADDR;
+        }
+
+        /**
          * {@return the specialized method handle}
          */
         public MethodHandle handle() {
@@ -630,7 +646,7 @@ public class ioctl_h {
                 if (TRACE_DOWNCALLS) {
                     traceDowncall("ioctl", __fd, __request, x2);
                 }
-                return (int)spreader.invokeExact(__fd, __request, x2);
+                return (int) spreader.invokeExact(__fd, __request, x2);
             } catch(IllegalArgumentException | ClassCastException ex$)  {
                 throw ex$; // rethrow IAE from passing wrong number/type of args
             } catch (Throwable ex$) {
@@ -646,9 +662,9 @@ public class ioctl_h {
             ioctl_h.C_POINTER
         );
 
-        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(
-                    ioctl_h.findOrThrow("tcgetattr"),
-                    DESC);
+        public static final MemorySegment ADDR = ioctl_h.findOrThrow("tcgetattr");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
 
     /**
@@ -670,6 +686,17 @@ public class ioctl_h {
     public static MethodHandle tcgetattr$handle() {
         return tcgetattr.HANDLE;
     }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * extern int tcgetattr(int __fd, struct termios *__termios_p)
+     * }
+     */
+    public static MemorySegment tcgetattr$address() {
+        return tcgetattr.ADDR;
+    }
+
     /**
      * {@snippet lang=c :
      * extern int tcgetattr(int __fd, struct termios *__termios_p)
@@ -695,9 +722,9 @@ public class ioctl_h {
             ioctl_h.C_POINTER
         );
 
-        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(
-                    ioctl_h.findOrThrow("tcsetattr"),
-                    DESC);
+        public static final MemorySegment ADDR = ioctl_h.findOrThrow("tcsetattr");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
 
     /**
@@ -719,6 +746,17 @@ public class ioctl_h {
     public static MethodHandle tcsetattr$handle() {
         return tcsetattr.HANDLE;
     }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * extern int tcsetattr(int __fd, int __optional_actions, const struct termios *__termios_p)
+     * }
+     */
+    public static MemorySegment tcsetattr$address() {
+        return tcsetattr.ADDR;
+    }
+
     /**
      * {@snippet lang=c :
      * extern int tcsetattr(int __fd, int __optional_actions, const struct termios *__termios_p)
