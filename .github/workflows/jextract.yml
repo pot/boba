@@ -29,10 +29,12 @@ jobs:
         with:
           candidate: jextract
           version: 22.ea.6
-      - name: Configure environment
-        shell: bash
+
+      - name: Add jextract to PATH
         run: |
-          echo "${{ steps.sdkman.outputs.path }}" >> $GITHUB_PATH
+          echo "${{ steps.sdkman.outputs.path }}/bin" >> $GITHUB_PATH
+          export PATH="${{ steps.sdkman.outputs.path }}/bin:$PATH"
+
 
       - name: Run extract task
         run: |
