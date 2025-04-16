@@ -36,7 +36,24 @@ jobs:
         run: |
           cd core
           just ${{ matrix.task }} ${{ matrix.arch }}
+      - name: Upload headers
+        uses: actions/upload-artifact@v4
+        with:
+          name: headers-${{ matrix.os }}-${{ matrix.arch }}
+          path: core/src/main/java/dev/mccue/boba/c/
 
+  commit:
+    needs: extract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download all headers
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Copy headers
+        run: |
+          cp -r artifacts/*/* core/src/main/java/dev/mccue/boba/c/
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Updated native headers for ${{ matrix.os }}
+          commit_message: Updated native headers for all platforms
