@@ -17,6 +17,9 @@ jobs:
           - os: ubuntu-latest
             arch: x86_64
             task: extract_linux
+          - os: ubuntu-latest
+            arch: arm64
+            task: extract_linux
 
     runs-on: ${{ matrix.os }}
 
@@ -54,6 +57,7 @@ jobs:
       - name: Copy headers
         run: |
           cp -r artifacts/*/* core/src/main/java/dev/mccue/boba/c/
+          rm -rf artifacts
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Updated native headers for all platforms
