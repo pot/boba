@@ -40,3 +40,4 @@ public class Counter extends Program<Model> {
 - [ ] Mouse scrolling support
 - [ ] Layout API
 - [ ] Min win size option. Can stop movement with native code by settings win size
+- [ ] Look at MacTerminal#makeCooked (figure out why its not working)

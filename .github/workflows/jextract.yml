@@ -30,12 +30,6 @@ jobs:
           candidate: jextract
           version: 22.ea.6
 
-      - name: Add jextract to PATH
-        run: |
-          echo "${{ steps.sdkman.outputs.path }}/bin" >> $GITHUB_PATH
-          export PATH="${{ steps.sdkman.outputs.path }}/bin:$PATH"
-
-
       - name: Run extract task
         run: |
           cd core

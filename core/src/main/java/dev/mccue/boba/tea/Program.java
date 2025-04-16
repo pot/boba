@@ -111,6 +111,11 @@ public abstract class Program<Model> {
             Thread.startVirtualThread(() -> handleUserInput(opts.input()));
         }
 
+        // handle settings term back to old settings on shutdown
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            terminal.makeCooked(0);
+        }));
+
         Model finalModel;
         try {
             finalModel = eventLoop(model);
@@ -122,9 +127,6 @@ public abstract class Program<Model> {
 
         // write last frame
         renderer.write(view(finalModel));
-
-        // TODO: for now terminal back to cooked mode here
-        terminal.makeCooked(0);
 
         return finalModel;
     }

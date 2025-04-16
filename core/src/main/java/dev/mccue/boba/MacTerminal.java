@@ -12,6 +12,8 @@ import java.lang.foreign.ValueLayout;
 import static java.lang.foreign.ValueLayout.*;
 
 final class MacTerminal extends Terminal {
+    private MemorySegment previousSettings;
+
     MacTerminal() {}
 
     @Override
@@ -28,6 +30,11 @@ final class MacTerminal extends Terminal {
     public void makeRaw(int fd) {
         try (var arena = Arena.ofConfined()) {
             var t = termios.allocate(arena);
+            var oldSettingsInvoker = ioctl_h.ioctl.makeInvoker(termios.layout());
+            oldSettingsInvoker.apply(fd, ioctl_h.TIOCGETA(), t);
+            previousSettings = termios.allocate(arena);
+            previousSettings.copyFrom(t);
+
             var invoker = ioctl_h.ioctl.makeInvoker(termios.layout());
             invoker.apply(fd, ioctl_h.TIOCGETA(), t);
 
@@ -65,8 +72,11 @@ final class MacTerminal extends Terminal {
 
     @Override
     public void makeCooked(int fd) {
-        try (Arena arena = Arena.ofConfined()) {
-            ioctl_h.ioctl ioctl = ioctl_h.ioctl.makeInvoker(ADDRESS);
+        try {
+            var invoker = ioctl_h.ioctl.makeInvoker(termios.layout());
+            invoker.apply(fd, ioctl_h.TIOCSETA(), previousSettings);
+        } finally {
+            previousSettings = null;
         }
     }
 
@@ -75,13 +85,8 @@ final class MacTerminal extends Terminal {
         try (var arena = Arena.ofConfined()) {
             MemorySegment size = winsize.allocate(arena);
             ioctl_h.ioctl ioctl = ioctl_h.ioctl.makeInvoker(ADDRESS);
-            ioctl.descriptor().argumentLayouts().forEach(arg -> {
-                //System.err.println("Arg type: " + arg.toString());
-            });
             ioctl.apply(0, ioctl_h.TIOCGWINSZ(), size);
 
-            System.err.println("Row: " + winsize.ws_row(size));
-            System.err.println("Col: " + winsize.ws_col(size));
             return new TerminalSize(winsize.ws_row(size), winsize.ws_col(size));
         }
     }
