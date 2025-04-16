@@ -8,14 +8,14 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-latest
-            arch: x86_64
+          - os: macos-13
+            arch: intel
             task: extract_mac
-          - os: macos-14
+          - os: macos-15
             arch: arm64
             task: extract_mac
-          - os: ubuntu-latest
-            arch: x86_64
+          - os: ubuntu-24.04-arm
+            arch: x64
             task: extract_linux
           - os: ubuntu-latest
             arch: arm64
