@@ -89,7 +89,7 @@ extract_mac ARCH:
 extract_linux ARCH:
     jextract \
         --output src/main/java \
-        --target-package dev.mccue.boba.c.linux \
+        --target-package dev.mccue.boba.c.linux.{{ARCH}} \
         --include-struct termios \
         --include-struct winsize \
         --include-function ioctl \
