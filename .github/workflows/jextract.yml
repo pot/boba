@@ -17,9 +17,6 @@ jobs:
           - os: ubuntu-latest
             arch: x86_64
             task: extract_linux
-          - os: windows-latest
-            arch: x86_64
-            task: extract_windows
 
     runs-on: ${{ matrix.os }}
 
