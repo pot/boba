@@ -7,13 +7,18 @@ jobs:
   extract:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
         include:
           - os: macos-latest
+            arch: x86_64
+            task: extract_mac
+          - os: macos-14
+            arch: arm64
             task: extract_mac
           - os: ubuntu-latest
+            arch: x86_64
             task: extract_linux
           - os: windows-latest
+            arch: x86_64
             task: extract_windows
 
     runs-on: ${{ matrix.os }}
@@ -33,7 +38,7 @@ jobs:
       - name: Run extract task
         run: |
           cd core
-          just ${{ matrix.task }}
+          just ${{ matrix.task }} ${{ matrix.arch }}
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
