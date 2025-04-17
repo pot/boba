@@ -1,10 +1,10 @@
 help:
     @just --list
 
-extract_mac:
+extract_mac ARCH:
     jextract \
         --output src/main/java \
-        --target-package dev.mccue.boba.c.mac \
+        --target-package dev.mccue.boba.c.mac.{{ARCH}} \
         --include-struct termios \
         --include-struct winsize \
         --include-function ioctl \
@@ -86,10 +86,10 @@ extract_mac:
         ioctl.h
 
 
-extract_linux:
+extract_linux ARCH:
     jextract \
         --output src/main/java \
-        --target-package dev.mccue.boba.c.linux \
+        --target-package dev.mccue.boba.c.linux.{{ARCH}} \
         --include-struct termios \
         --include-struct winsize \
         --include-function ioctl \
@@ -170,7 +170,7 @@ extract_linux:
       	--include-constant TCSETS \
         ioctl.h
 
-extract_windows:
+extract_windows ARCH:
     jextract \
         --output src/main/java \
         --target-package dev.mccue.boba.c.windows \

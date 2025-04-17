@@ -2,13 +2,11 @@ package dev.mccue.boba.tea;
 
 import dev.mccue.boba.Renderer;
 import dev.mccue.boba.StandardRenderer;
-import dev.mccue.boba.Terminal;
-import dev.mccue.boba.TerminalSize;
+import dev.mccue.boba.terminal.Terminal;
+import dev.mccue.boba.terminal.TerminalSize;
 import sun.misc.Signal;
-import sun.misc.Unsafe;
 
 import java.io.*;
-import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.List;

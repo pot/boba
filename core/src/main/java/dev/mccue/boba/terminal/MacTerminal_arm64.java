@@ -1,20 +1,16 @@
-package dev.mccue.boba;
+package dev.mccue.boba.terminal;
 
-import dev.mccue.boba.c.mac.ioctl_h;
-import dev.mccue.boba.c.mac.termios;
-import dev.mccue.boba.c.mac.winsize;
-import dev.mccue.boba.org.apache.commons.lang3.SystemUtils;
+import dev.mccue.boba.c.mac.arm64.*;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.ValueLayout;
 
 import static java.lang.foreign.ValueLayout.*;
 
-final class MacTerminal extends Terminal {
+final class MacTerminal_arm64 extends Terminal {
     private MemorySegment previousSettings;
 
-    MacTerminal() {}
+    MacTerminal_arm64() {}
 
     @Override
     public boolean isTerminal(int fd) {

@@ -1,11 +1,10 @@
-package dev.mccue.boba;
+package dev.mccue.boba.terminal;
 
-import dev.mccue.boba.c.linux.ioctl_h;
-import dev.mccue.boba.c.linux.termios;
+import dev.mccue.boba.c.linux.x64.*;
 
 import java.lang.foreign.Arena;
 
-final class LinuxTerminal extends Terminal {
+final class LinuxTerminal_x64 extends Terminal {
     @Override
     public boolean isTerminal(int fd) {
         var invoker = ioctl_h.ioctl.makeInvoker(termios.layout());
@@ -25,13 +24,13 @@ final class LinuxTerminal extends Terminal {
 
             var iflag = termios.c_iflag(t);
             iflag &= ~(ioctl_h.IGNBRK()
-                       | ioctl_h.BRKINT()
-                       | ioctl_h.PARMRK()
-                       | ioctl_h.ISTRIP()
-                       | ioctl_h.INLCR()
-                       | ioctl_h.IGNCR()
-                       | ioctl_h.ICRNL()
-                       | ioctl_h.IXON());
+                    | ioctl_h.BRKINT()
+                    | ioctl_h.PARMRK()
+                    | ioctl_h.ISTRIP()
+                    | ioctl_h.INLCR()
+                    | ioctl_h.IGNCR()
+                    | ioctl_h.ICRNL()
+                    | ioctl_h.IXON());
             termios.c_iflag(t, iflag);
 
             var oflag = termios.c_oflag(t);
