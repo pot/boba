@@ -1,9 +1,8 @@
-package dev.mccue.boba;
+package dev.mccue.boba.terminal;
 
 import dev.mccue.boba.c.windows.windows_h;
 
 import java.lang.foreign.Arena;
-import java.lang.foreign.MemorySegment;
 
 final class WindowsTerminal extends Terminal {
     @Override
