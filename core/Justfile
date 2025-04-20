@@ -1,8 +1,8 @@
 help:
     @just --list
 
-extract_mac ARCH:
-    jextract \
+extract_mac ARCH PATH="jextract":
+    {{PATH}} \
         --output src/main/java \
         --target-package dev.mccue.boba.c.mac.{{ARCH}} \
         --include-struct termios \
@@ -86,8 +86,8 @@ extract_mac ARCH:
         ioctl.h
 
 
-extract_linux ARCH:
-    jextract \
+extract_linux ARCH PATH="jextract":
+    {{PATH}} \
         --output src/main/java \
         --target-package dev.mccue.boba.c.linux.{{ARCH}} \
         --include-struct termios \
@@ -170,8 +170,8 @@ extract_linux ARCH:
       	--include-constant TCSETS \
         ioctl.h
 
-extract_windows ARCH:
-    jextract \
+extract_windows ARCH PATH="jextract":
+    {{PATH}} \
         --output src/main/java \
         --target-package dev.mccue.boba.c.windows \
         --include-function GetConsoleMode \

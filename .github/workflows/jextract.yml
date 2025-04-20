@@ -52,14 +52,16 @@ jobs:
         shell: bash
         run: tar -xzf jextract.tar.gz
 
-      - name: Add jextract bin to PATH
+      - name: Chmod jextract
         shell: bash
-        run: echo "${{ steps.jextract_dir.outputs.dir }}/bin" >> $GITHUB_PATH
+        if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
+        run: chmod +x ${{ steps.jextract_dir.outputs.dir }}/bin/jextract
 
       - name: Run extract task
         run: |
           cd core
-          just ${{ matrix.task }} ${{ matrix.arch }}
+          just ${{ matrix.task }} ${{ matrix.arch }} ${{ steps.jextract_dir.outputs.dir }}/bin/jextract
+
       - name: Upload headers
         uses: actions/upload-artifact@v4
         with:
