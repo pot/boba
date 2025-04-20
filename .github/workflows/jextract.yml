@@ -50,7 +50,6 @@ jobs:
         shell: bash
         run: |
           JEXTRACT_BIN=$(find . -name jextract -type f -path "*/bin/*" | head -n 1)
-          echo "Found jextract at: $JEXTRACT_BIN"
           echo "path=$JEXTRACT_BIN" >> $GITHUB_OUTPUT
 
       - name: Chmod jextract
@@ -59,9 +58,11 @@ jobs:
         run: chmod +x ${{ steps.jextract_bin.outputs.path }}
 
       - name: Run extract task
+        shell: bash
         run: |
           cd core
-          just ${{ matrix.task }} ${{ matrix.arch }} ${{ steps.jextract_bin.outputs.path }}
+          JEXTRACT_ABSOLUTE_PATH="${{ github.workspace }}/${{ steps.jextract_dir.outputs.dir }}/bin/jextract"
+          just ${{ matrix.task }} ${{ matrix.arch }} "$JEXTRACT_ABSOLUTE_PATH"
 
       - name: Upload headers
         uses: actions/upload-artifact@v4
