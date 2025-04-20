@@ -11,15 +11,22 @@ jobs:
           - os: macos-13
             arch: intel
             task: extract_mac
+            jextract: https://download.java.net/java/early_access/jextract/22/6/openjdk-22-jextract+6-47_macos-x64_bin.tar.gz
+
           - os: macos-15
             arch: arm64
             task: extract_mac
+            jextract: https://download.java.net/java/early_access/jextract/22/6/openjdk-22-jextract+6-47_macos-aarch64_bin.tar.gz
+
           - os: ubuntu-24.04-arm
             arch: x64
             task: extract_linux
+            jextract: https://download.java.net/java/early_access/jextract/22/6/openjdk-22-jextract+6-47_linux-x64_bin.tar.gz
+
           - os: ubuntu-latest
             arch: arm64
             task: extract_linux
+            jextract: https://download.java.net/java/early_access/jextract/22/6/openjdk-22-jextract+6-47_linux-aarch64_bin.tar.gz
 
     runs-on: ${{ matrix.os }}
 
@@ -29,11 +36,17 @@ jobs:
       - name: Install Just
         uses: extractions/setup-just@v1
 
-      - uses: sdkman/sdkman-action@main
-        id: sdkman
-        with:
-          candidate: jextract
-          version: 22.ea.6
+      - name: Curl jextract
+        shell: bash
+        run: |
+          curl -L ${{ matrix.jextract }} -o jextract.tar.gz
+          tar -xzf jextract.tar.gz
+
+      - name: Add jextract bin to PATH
+        shell: bash
+        run: |
+          JEXTRACT_DIR=$(tar -tf jextract.tar.gz | head -1 | cut -f1 -d"/")
+          echo "$JEXTRACT_DIR/bin" >> $GITHUB_PATH
 
       - name: Run extract task
         run: |
