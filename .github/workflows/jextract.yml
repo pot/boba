@@ -40,13 +40,21 @@ jobs:
         shell: bash
         run: |
           curl -L ${{ matrix.jextract }} -o jextract.tar.gz
-          tar -xzf jextract.tar.gz
 
-      - name: Add jextract bin to PATH
+      - name: Get jextract directory name
+        id: jextract_dir
         shell: bash
         run: |
           JEXTRACT_DIR=$(tar -tf jextract.tar.gz | head -1 | cut -f1 -d"/")
-          echo "$JEXTRACT_DIR/bin" >> $GITHUB_PATH
+          echo "dir=$JEXTRACT_DIR" >> $GITHUB_OUTPUT
+
+      - name: Extract jextract
+        shell: bash
+        run: tar -xzf jextract.tar.gz
+
+      - name: Add jextract bin to PATH
+        shell: bash
+        run: echo "${{ steps.jextract_dir.outputs.dir }}/bin" >> $GITHUB_PATH
 
       - name: Run extract task
         run: |
