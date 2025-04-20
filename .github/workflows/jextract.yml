@@ -19,14 +19,14 @@ jobs:
             jextract: https://download.java.net/java/early_access/jextract/22/6/openjdk-22-jextract+6-47_macos-aarch64_bin.tar.gz
 
           - os: ubuntu-24.04-arm
-            arch: x64
-            task: extract_linux
-            jextract: https://download.java.net/java/early_access/jextract/22/6/openjdk-22-jextract+6-47_linux-x64_bin.tar.gz
-
-          - os: ubuntu-latest
             arch: arm64
             task: extract_linux
             jextract: https://download.java.net/java/early_access/jextract/22/6/openjdk-22-jextract+6-47_linux-aarch64_bin.tar.gz
+
+          - os: ubuntu-latest
+            arch: x64
+            task: extract_linux
+            jextract: https://download.java.net/java/early_access/jextract/22/6/openjdk-22-jextract+6-47_linux-x64_bin.tar.gz
 
     runs-on: ${{ matrix.os }}
 
