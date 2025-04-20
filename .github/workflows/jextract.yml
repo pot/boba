@@ -41,25 +41,27 @@ jobs:
         run: |
           curl -L ${{ matrix.jextract }} -o jextract.tar.gz
 
-      - name: Get jextract directory name
-        id: jextract_dir
-        shell: bash
-        run: |
-          echo "dir=${{ github.workspace }}/jextract" >> $GITHUB_OUTPUT
-
       - name: Extract jextract
         shell: bash
         run: tar -xzf jextract.tar.gz
 
+      - name: Find jextract binary path
+        id: jextract_bin
+        shell: bash
+        run: |
+          JEXTRACT_BIN=$(find . -name jextract -type f -path "*/bin/*" | head -n 1)
+          echo "Found jextract at: $JEXTRACT_BIN"
+          echo "path=$JEXTRACT_BIN" >> $GITHUB_OUTPUT
+
       - name: Chmod jextract
         shell: bash
         if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
-        run: chmod +x ${{ steps.jextract_dir.outputs.dir }}/bin/jextract
+        run: chmod +x ${{ steps.jextract_bin.outputs.path }}
 
       - name: Run extract task
         run: |
           cd core
-          just ${{ matrix.task }} ${{ matrix.arch }} ${{ steps.jextract_dir.outputs.dir }}/bin/jextract
+          just ${{ matrix.task }} ${{ matrix.arch }} ${{ steps.jextract_bin.outputs.path }}
 
       - name: Upload headers
         uses: actions/upload-artifact@v4
