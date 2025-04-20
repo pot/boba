@@ -187,4 +187,4 @@ extract_windows ARCH PATH="jextract":
         --include-constant DUPLICATE_SAME_ACCESS \
         --include-function GetStdHandle \
         --include-constant STD_OUTPUT_HANDLE \
-        windows.h
+        windows_wrapper.h
