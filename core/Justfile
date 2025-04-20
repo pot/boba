@@ -173,7 +173,7 @@ extract_linux ARCH PATH="jextract":
 extract_windows ARCH PATH="jextract":
     {{PATH}} \
         --output src/main/java \
-        --target-package dev.mccue.boba.c.windows \
+        --target-package dev.mccue.boba.c.windows.{{ARCH}} \
         --include-function GetConsoleMode \
         --include-function SetConsoleMode \
         --include-constant ENABLE_ECHO_INPUT \

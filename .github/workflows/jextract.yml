@@ -28,6 +28,11 @@ jobs:
             task: extract_linux
             jextract: https://download.java.net/java/early_access/jextract/22/6/openjdk-22-jextract+6-47_linux-x64_bin.tar.gz
 
+          - os: windows-latest
+            arch: x64
+            task: extract_windows
+            jextract: https://download.java.net/java/early_access/jextract/22/6/openjdk-22-jextract+6-47_windows-x64_bin.tar.gz
+
     runs-on: ${{ matrix.os }}
 
     steps:
