@@ -58,11 +58,9 @@ jobs:
         run: chmod +x ${{ steps.jextract_bin.outputs.path }}
 
       - name: Run extract task
-        shell: bash
         run: |
           cd core
-          JEXTRACT_ABSOLUTE_PATH="${{ github.workspace }}/${{ steps.jextract_dir.outputs.dir }}/bin/jextract"
-          just ${{ matrix.task }} ${{ matrix.arch }} "$JEXTRACT_ABSOLUTE_PATH"
+          just ${{ matrix.task }} ${{ matrix.arch }} ../${{ steps.jextract_bin.outputs.path }}
 
       - name: Upload headers
         uses: actions/upload-artifact@v4
