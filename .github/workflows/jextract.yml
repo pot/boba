@@ -45,8 +45,7 @@ jobs:
         id: jextract_dir
         shell: bash
         run: |
-          JEXTRACT_DIR=$(tar -tf jextract.tar.gz | head -1 | cut -f1 -d"/")
-          echo "dir=$JEXTRACT_DIR" >> $GITHUB_OUTPUT
+          echo "dir=${{ github.workspace }}/jextract" >> $GITHUB_OUTPUT
 
       - name: Extract jextract
         shell: bash
