@@ -4,6 +4,8 @@ import dev.mccue.ansi.*;
 import dev.mccue.ansi.parser.Width;
 import dev.mccue.boba.tea.Msg;
 import dev.mccue.wcwidth.WCWidth;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,6 +16,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class StandardRenderer implements Renderer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StandardRenderer.class);
+
     private final OutputStream out;
     private final int fps;
 
@@ -144,6 +148,8 @@ public class StandardRenderer implements Renderer {
                 0,
                 1000 / fps
         );
+
+        LOGGER.info("Standard Renderer started with a new frame being rendered every {}ms.", 1000 / fps);
     }
 
     @Override
