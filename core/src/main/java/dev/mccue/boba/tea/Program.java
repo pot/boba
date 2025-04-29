@@ -42,16 +42,19 @@ public abstract class Program<Model> {
         if (!opts.useDefaultSignalHandler()) {
             Signal.handle(new Signal("INT"), _ -> {
                 // always will be successfully since uncapped queue
-                System.err.println("INTERUPT sent");
                 msgQueue.offer(new Msg.InteruptMsg());
             });
 
             Signal.handle(new Signal("TERM"), _ -> {
-                System.err.println("TERMINATED sent");
                 msgQueue.offer(new Msg.QuitMsg());
             });
         }
 
+        // TODO: discuss further on discord the usage of this "unsafe" api
+        // from some core devs, they dont have any plans to remove it and if they do
+        // a actual api will replace it
+        // this is how apache handled avoiding the usage of it:
+        // https://issues.apache.org/jira/browse/HADOOP-19329
         Signal.handle(new Signal("WINCH"), _ -> {
             processCmd(() -> {
                 TerminalSize terminalSize = terminal.getTerminalSize();
@@ -84,6 +87,7 @@ public abstract class Program<Model> {
             renderer.enableReportFocus();
         }
 
+        // TODO: allow configurable (prob switch to actual SLF4J logger)
         File errFile = new File("err.txt");
         FileOutputStream ops;
         try {
@@ -183,6 +187,8 @@ public abstract class Program<Model> {
         });
     }
 
+    // https://ecma-international.org/wp-content/uploads/ECMA-48_5th_edition_june_1991.pdf
+    // ^^^^ use this as a reference
     private void handleUserInput(InputStream in) {
         while (true) {
             try {
@@ -193,6 +199,8 @@ public abstract class Program<Model> {
                 }
 
                 processCmd(() -> new Msg.KeyClickMsg((char) input));
+
+                System.err.println("Input: (Raw) " + input + " (Char) " + (char) input);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

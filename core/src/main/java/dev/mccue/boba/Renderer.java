@@ -2,7 +2,6 @@ package dev.mccue.boba;
 
 import dev.mccue.boba.tea.Msg;
 
-@Charm("https://github.com/charmbracelet/bubbletea/blob/491eda41276c3419d519bc8c622725fa587b7e37/renderer.go")
 public interface Renderer {
     // Start the renderer.
     void start();
