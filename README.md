@@ -34,6 +34,18 @@ public class Counter extends Program<Model> {
 }
 ```
 
+## Logging
+We use the slf4j logging framework. You will need to include a logging implementation like logback-classic as seen
+below. There is a default logback.xml provided so the actual program isn't interrupted by unexpected logging. By default,
+it logs to a file called app.log, but it is highly recommended to either disable logging completely or log to your own file.
+
+```xml
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+```
+
 ## Roadmap
 
 - [ ] Non char inputs (arrow keys, control, combinations, ect..)
