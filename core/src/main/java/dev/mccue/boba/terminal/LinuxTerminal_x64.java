@@ -16,7 +16,7 @@ final class LinuxTerminal_x64 extends Terminal {
     }
 
     @Override
-    public void makeRaw(int fd) {
+    public Callback makeRaw(int fd) {
         try (var arena = Arena.ofConfined()) {
             var t = termios.allocate(arena);
             var invoker = ioctl_h.ioctl.makeInvoker(termios.layout());
@@ -48,13 +48,13 @@ final class LinuxTerminal_x64 extends Terminal {
 
             termios.c_cc(t, ioctl_h.VMIN(), (byte) 1);
             termios.c_cc(t, ioctl_h.VTIME(), (byte) 0);
+
+            return () -> {
+
+            };
         }
     }
 
-    @Override
-    public void makeCooked(int fd) {
-
-    }
 
     @Override
     public TerminalSize getTerminalSize() {

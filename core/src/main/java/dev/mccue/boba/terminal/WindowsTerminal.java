@@ -18,13 +18,8 @@ final class WindowsTerminal extends Terminal {
     }
 
     @Override
-    public void makeRaw(int fd) {
+    public Callback makeRaw(int fd) {
         throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void makeCooked(int fd) {
-
     }
 
     @Override

@@ -39,7 +39,14 @@ public abstract class Program<Model> {
         }
 
         // we need the input and output both to be raw
-        terminal.makeRaw(0);
+        var restoreCallback = terminal.makeRaw(0);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                restoreCallback.close();
+            } catch (Exception e) {
+                LOGGER.error("Failed to restore terminal settings.", e);
+            }
+        }));
 
         // rn we will assume that its running inside a terminal but in the future we need to handle everything
         // from my testing, I don't think these signals are ever sent (even when terminal is closed forcefully)
@@ -106,10 +113,6 @@ public abstract class Program<Model> {
             Thread.startVirtualThread(() -> handleUserInput(opts.input()));
         }
 
-        // handle settings term back to old settings on shutdown
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            terminal.makeCooked(0);
-        }));
 
         Model finalModel;
         try {
