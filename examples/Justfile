@@ -14,3 +14,10 @@ run-tct:
     mvn dependency:copy-dependencies
     clear
     @cd tictactoe && java -p target/dependency:target/classes --enable-native-access=dev.mccue.boba -m dev.mccue.boba.tictactoe/dev.mccue.boba.tictactoe.Main
+
+run-monkeytype:
+    cd monkeytype && mvn clean
+    cd monkeytype && mvn package -DskipTests
+    mvn dependency:copy-dependencies
+    clear
+    @cd monkeytype && java -p target/dependency:target/classes --enable-native-access=dev.mccue.boba -m dev.mccue.boba.monkeytype/dev.mccue.boba.monkeytype.Main

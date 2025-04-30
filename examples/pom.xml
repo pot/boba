@@ -10,6 +10,7 @@
     <modules>
         <module>counter</module>
         <module>tictactoe</module>
+        <module>monkeytype</module>
     </modules>
 
     <dependencyManagement>
