@@ -27,7 +27,7 @@ final class MacTerminal_arm64 extends Terminal {
 
     @Override
     public Callback makeRaw(int fd) {
-        var arena = Arena.ofConfined();
+        var arena = Arena.ofShared();
         var t = termios.allocate(arena);
         var oldSettingsInvoker = ioctl_h.ioctl.makeInvoker(termios.layout());
         oldSettingsInvoker.apply(fd, ioctl_h.TIOCGETA(), t);
