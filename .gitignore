@@ -40,5 +40,7 @@ build/
 
 ### Used for debugging ###
 err.txt
+app.log
 
 **/*.err.txt
+**/*.app.log

@@ -4,6 +4,8 @@ import dev.mccue.boba.Renderer;
 import dev.mccue.boba.StandardRenderer;
 import dev.mccue.boba.terminal.Terminal;
 import dev.mccue.boba.terminal.TerminalSize;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.misc.Signal;
 
 import java.io.*;
@@ -14,6 +16,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class Program<Model> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
+
     private final BlockingQueue<Msg> msgQueue = new LinkedBlockingQueue<>();
     private Renderer renderer;
 
@@ -87,19 +91,6 @@ public abstract class Program<Model> {
             renderer.enableReportFocus();
         }
 
-        // TODO: allow configurable (prob switch to actual SLF4J logger)
-        File errFile = new File("err.txt");
-        FileOutputStream ops;
-        try {
-            Files.write(errFile.toPath(), "".getBytes(Charset.defaultCharset()));
-            ops = new FileOutputStream(errFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        PrintStream ps = new PrintStream(ops, true);
-        System.setErr(ps);
-
         // set initial size inside the renderer
         processCmd(() -> {
             TerminalSize terminalSize = terminal.getTerminalSize();
@@ -108,6 +99,8 @@ public abstract class Program<Model> {
 
         renderer.start();
         renderer.write(view(model));
+
+        LOGGER.debug("Program started with initial frame printed.");
 
         if (opts.input() != null) {
             Thread.startVirtualThread(() -> handleUserInput(opts.input()));
@@ -123,7 +116,6 @@ public abstract class Program<Model> {
             finalModel = eventLoop(model);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            System.err.println("Event loop interrupted: " + e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -200,7 +192,7 @@ public abstract class Program<Model> {
 
                 processCmd(() -> new Msg.KeyClickMsg((char) input));
 
-                System.err.println("Input: (Raw) " + input + " (Char) " + (char) input);
+                LOGGER.debug("Input: (Raw) {} (Char) {}", input, (char) input);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
