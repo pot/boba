@@ -1,6 +1,6 @@
 name: Actions Runner Controller Demo
 on:
-  commit:
+  push:
 
 jobs:
   Explore-GitHub-Actions:
