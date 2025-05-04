@@ -120,7 +120,10 @@
                             <jreleaser>
                                 <project>
                                     <copyright>2025</copyright>
-                                    <versionPattern><type>CHRONVER</type></versionPattern>
+                                    <versionPattern>
+                                        <type>CALVER</type>
+                                        <pattern>YYYY.MM.DD[.MODIFIER]</pattern>
+                                    </versionPattern>
                                 </project>
                                 <signing>
                                     <active>ALWAYS</active>
