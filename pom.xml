@@ -4,7 +4,7 @@
 
     <groupId>dev.weisz</groupId>
     <artifactId>boba-parent</artifactId>
-    <version>2025.05.04</version>
+    <version>2025.5.4</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -68,6 +68,9 @@
     <profiles>
         <profile>
             <id>release</id>
+            <properties>
+                <altDeploymentRepository>local::file:./target/staging-deploy</altDeploymentRepository>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -92,7 +95,7 @@
                                 <project>
                                     <copyright>2025</copyright>
                                     <versionPattern>
-                                        <type>CALVER:YYYY.MM.DD[.MODIFIER]</type>
+                                        CALVER:YYYY.MM.DD[.MODIFIER]
                                     </versionPattern>
                                 </project>
                                 <signing>
@@ -101,11 +104,16 @@
                                 </signing>
                                 <deploy>
                                     <maven>
-                                        <maven-central>
-                                            <active>ALWAYS</active>
-                                            <closeRepository>true</closeRepository>
-                                            <releaseRepository>true</releaseRepository>
-                                        </maven-central>
+                                        <nexus2>
+                                            <maven-central>
+                                                <active>ALWAYS</active>
+                                                <url>https://s01.oss.sonatype.org/service/local</url>
+                                                <snapshotUrl>https://s01.oss.sonatype.org/content/repositories/snapshots</snapshotUrl>
+                                                <closeRepository>true</closeRepository>
+                                                <releaseRepository>true</releaseRepository>
+                                                <stagingRepositories>target/staging-deploy</stagingRepositories>
+                                            </maven-central>
+                                        </nexus2>
                                     </maven>
                                 </deploy>
                             </jreleaser>
