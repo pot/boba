@@ -112,6 +112,20 @@
                                         <type>CALVER</type>
                                         <format>YYYY.MM.DD[.MODIFIER]</format>
                                     </versionPattern>
+                                    <artifacts>
+                                        <artifact>
+                                            <path>core/target/*.jar</path>
+                                        </artifact>
+                                        <artifact>
+                                            <path>ansi/target/*.jar</path>
+                                        </artifact>
+                                        <artifact>
+                                            <path>core/target/*-sources.jar</path>
+                                        </artifact>
+                                        <artifact>
+                                            <path>ansi/target/*-sources.jar</path>
+                                        </artifact>
+                                    </artifacts>
                                 </project>
                                 <signing>
                                     <active>ALWAYS</active>
