@@ -4,7 +4,7 @@
 
     <groupId>dev.weisz</groupId>
     <artifactId>boba-parent</artifactId>
-    <version>2025.5.4</version>
+    <version>2025.5.4-alpha</version>
     <packaging>pom</packaging>
     <url>https://github.com/pot/boba</url>
     <name>Boba</name>
@@ -85,6 +85,9 @@
     <profiles>
         <profile>
             <id>release</id>
+            <properties>
+                <altDeploymentRepository>local::file:./target/staging-deploy</altDeploymentRepository>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -122,9 +125,10 @@
                                         <nexus2>
                                             <maven-central>
                                                 <active>ALWAYS</active>
-                                                <url>https://s01.oss.sonatype.org/service/local</url>;
+                                                <url>https://s01.oss.sonatype.org/service/local</url>
+                                                <snapshotUrl>https://s01.oss.sonatype.org/content/repositories/snapshots</snapshotUrl>
                                                 <closeRepository>true</closeRepository>
-                                                <releaseRepository>true</releaseRepository>
+                                                <releaseRepository>false</releaseRepository>
                                                 <stagingRepositories>target/staging-deploy</stagingRepositories>
                                             </maven-central>
                                         </nexus2>
