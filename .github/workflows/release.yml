@@ -1,0 +1,36 @@
+name: release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 22
+          distribution: 'adopt'
+          cache: 'maven'
+
+      - name: Release with JReleaser
+        run: mvn clean package jreleaser:full-release -Prelease -pl core,ansi
+        env:
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.SONATYPE_GPG_PASSPHRASE }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.SONATYPE_GPG_PRIVATE_KEY }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.SONATYPE_GPG_PUBLIC_KEY }}
+          JRELEASER_MAVEN_CENTRAL_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          JRELEASER_MAVEN_CENTRAL_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_DRY_RUN: true

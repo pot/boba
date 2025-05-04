@@ -4,13 +4,47 @@
 
     <groupId>dev.weisz</groupId>
     <artifactId>boba-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>2025.05.04</version>
     <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
+    </properties>
+
+    <description>A java library for building terminal user interfaces</description>
+    <developers>
+        <developer>
+            <name>Nathan Weisz</name>
+            <email>nathan@weisz.dev</email>
+        </developer>
+        <developer>
+            <name>Ethan McCue</name>
+            <email>ethan@mccue.dev</email>
+            <organization>McCue Software Solutions</organization>
+            <organizationUrl>https://www.mccue.dev</organizationUrl>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/pot/boba.git</connection>
+        <developerConnection>scm:git:ssh://github.com:pot/boba.git</developerConnection>
+        <url>https://github.com/pot/boba/tree/main</url>
+    </scm>
 
     <modules>
         <module>core</module>
         <module>ansi</module>
     </modules>
+
 
     <build>
         <plugins>
@@ -30,4 +64,59 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-source</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.jreleaser</groupId>
+                        <artifactId>jreleaser-maven-plugin</artifactId>
+                        <version>1.18.0</version>
+                        <configuration>
+                            <jreleaser>
+                                <dry>
+                                    <run>true</run>
+                                </dry>
+                                <project>
+                                    <copyright>2025</copyright>
+                                    <versionPattern>
+                                        <type>CALVER</type>
+                                    </versionPattern>
+                                </project>
+                                <signing>
+                                    <active>ALWAYS</active>
+                                    <armored>true</armored>
+                                </signing>
+                                <deploy>
+                                    <maven>
+                                        <maven-central>
+                                            <active>ALWAYS</active>
+                                            <closeRepository>true</closeRepository>
+                                            <releaseRepository>true</releaseRepository>
+                                        </maven-central>
+                                    </maven>
+                                </deploy>
+                            </jreleaser>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
