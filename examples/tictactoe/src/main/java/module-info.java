@@ -1,4 +1,4 @@
-module dev.mccue.boba.tictactoe {
-    requires dev.mccue.boba;
-    requires dev.mccue.color.terminal;
+module dev.weisz.boba.tictactoe {
+    requires dev.weisz.boba;
+    requires dev.weisz.color.terminal;
 }

@@ -1,4 +1,4 @@
-module dev.mccue.boba.counter {
-    requires dev.mccue.boba;
-    requires dev.mccue.color.terminal;
+module dev.weisz.boba.counter {
+    requires dev.weisz.boba;
+    requires dev.weisz.color.terminal;
 }

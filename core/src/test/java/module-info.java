@@ -1,5 +1,5 @@
-open module dev.mccue.boba.test {
+open module dev.weisz.boba.test {
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.params;
-    requires dev.mccue.boba;
+    requires dev.weisz.boba;
 }

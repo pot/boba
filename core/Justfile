@@ -4,7 +4,7 @@ help:
 extract_mac ARCH PATH="jextract":
     {{PATH}} \
         --output src/main/java \
-        --target-package dev.mccue.boba.c.mac.{{ARCH}} \
+        --target-package dev.weisz.boba.c.mac.{{ARCH}} \
         --include-struct termios \
         --include-struct winsize \
         --include-function ioctl \
@@ -89,7 +89,7 @@ extract_mac ARCH PATH="jextract":
 extract_linux ARCH PATH="jextract":
     {{PATH}} \
         --output src/main/java \
-        --target-package dev.mccue.boba.c.linux.{{ARCH}} \
+        --target-package dev.weisz.boba.c.linux.{{ARCH}} \
         --include-struct termios \
         --include-struct winsize \
         --include-function ioctl \
@@ -173,7 +173,7 @@ extract_linux ARCH PATH="jextract":
 extract_windows ARCH PATH="jextract":
     {{PATH}} \
         --output src/main/java \
-        --target-package dev.mccue.boba.c.windows.{{ARCH}} \
+        --target-package dev.weisz.boba.c.windows.{{ARCH}} \
         --include-function GetConsoleMode \
         --include-function SetConsoleMode \
         --include-constant ENABLE_ECHO_INPUT \
