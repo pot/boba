@@ -20,7 +20,7 @@
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>dev.weisz</groupId>
+                <groupId>dev.mccue</groupId>
                 <artifactId>color-terminal</artifactId>
                 <version>2024.11.20</version>
             </dependency>

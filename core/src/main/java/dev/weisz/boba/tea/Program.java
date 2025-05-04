@@ -107,7 +107,7 @@ public abstract class Program<Model> {
         }
 
         if (opts.minWinSize() != null) {
-            processCmd(() -> new Msg.SetWindowMinSizeMsg(opts.minWinSize().height(), opts.minWinSize().width()));
+            setMinWinSize(opts.minWinSize());
         }
 
         // set initial size inside the renderer
@@ -166,11 +166,14 @@ public abstract class Program<Model> {
                     renderer.setWindowTitle(title);
 
                 case Msg.WindowSizeMsg(int height, int width) -> {
+                    LOGGER.info("Window size changed to: {}", new WinSize(height, width));
                     if (height < minWinSize.height() || width < minWinSize.width()) {
                         terminal.setWinSize(new WinSize(
                                 Math.max(height, minWinSize.height()),
                                 Math.max(width, minWinSize.width())
                         ));
+
+                        LOGGER.info("Window size was below min size. Resized to: {}", getWinSize());
                     }
                 }
 

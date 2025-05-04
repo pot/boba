@@ -6,11 +6,11 @@ run-counter:
     cd counter && mvn package -DskipTests
     cd counter && mvn dependency:copy-dependencies
     clear
-    @cd counter && java -p target/dependency:target/classes --enable-native-access=dev.weisz.boba -m dev.weisz.boba.counter/counter.dev.weisz.boba.Main
+    @cd counter && java -p target/dependency:target/classes --enable-native-access=dev.weisz.boba -m dev.weisz.boba.counter/dev.weisz.boba.counter.Main
 
 run-tct:
     cd tictactoe && mvn clean
     cd tictactoe && mvn package -DskipTests
     mvn dependency:copy-dependencies
     clear
-    @cd tictactoe && java -p target/dependency:target/classes --enable-native-access=dev.weisz.boba -m dev.weisz.boba.tictactoe/tictactoe.dev.weisz.boba.Main
+    @cd tictactoe && java -p target/dependency:target/classes --enable-native-access=dev.weisz.boba -m dev.weisz.boba.tictactoe/dev.weisz.boba.tictactoe.Main

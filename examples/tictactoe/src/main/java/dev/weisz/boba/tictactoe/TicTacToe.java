@@ -3,8 +3,8 @@ package dev.weisz.boba.tictactoe;
 import dev.weisz.boba.tea.Msg;
 import dev.weisz.boba.tea.Program;
 import dev.weisz.boba.tea.UpdateResult;
-import dev.weisz.color.terminal.ANSIColor;
-import dev.weisz.color.terminal.TerminalStyle;
+import dev.mccue.color.terminal.ANSIColor;
+import dev.mccue.color.terminal.TerminalStyle;
 
 public class TicTacToe extends Program<TicTacToeModel> {
 

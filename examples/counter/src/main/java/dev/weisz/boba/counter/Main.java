@@ -1,6 +1,7 @@
 package dev.weisz.boba.counter;
 
 import dev.weisz.boba.tea.ProgramOpts;
+import dev.weisz.boba.terminal.WinSize;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,6 +10,7 @@ public class Main {
 
         ProgramOpts opts = ProgramOpts.builder()
                 .startupTitle("Counter")
+                .minWinSize(new WinSize(50, 50))
                 .build();
 
         program.run(model, opts);

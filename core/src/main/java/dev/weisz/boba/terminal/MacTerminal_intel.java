@@ -92,6 +92,13 @@ final class MacTerminal_intel extends Terminal {
 
     @Override
     public void setWinSize(WinSize winSize) {
+        try (var arena = Arena.ofConfined()) {
+            MemorySegment size = winsize.allocate(arena);
+            winsize.ws_row(size, (short) winSize.height());
+            winsize.ws_col(size, (short) winSize.width());
 
+            ioctl_h.ioctl ioctl = ioctl_h.ioctl.makeInvoker(ADDRESS);
+            ioctl.apply(0, ioctl_h.TIOCSWINSZ(), size);
+        }
     }
 }
