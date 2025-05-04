@@ -129,13 +129,13 @@
                                 </signing>
                                 <deploy>
                                     <maven>
-                                        <mavenCentral>
-                                            <release-deploy>
-                                                <active>RELEASE</active>
-                                                <url>https://central.sonatype.com/api/v1/publisher</url>
-                                                <stagingRepositories>target/staging-deploy</stagingRepositories>
-                                            </release-deploy>
-                                        </mavenCentral>
+<!--                                        <mavenCentral>-->
+<!--                                            <release-deploy>-->
+<!--                                                <active>RELEASE</active>-->
+<!--                                                <url>https://central.sonatype.com/api/v1/publisher</url>-->
+<!--                                                <stagingRepositories>target/staging-deploy</stagingRepositories>-->
+<!--                                            </release-deploy>-->
+<!--                                        </mavenCentral>-->
                                         <nexus2>
                                             <snapshot-deploy>
                                                 <active>SNAPSHOT</active>
