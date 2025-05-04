@@ -95,7 +95,8 @@
                                 <project>
                                     <copyright>2025</copyright>
                                     <versionPattern>
-                                        CALVER:YYYY.MM.DD[.MODIFIER]
+                                        <type>CALVER</type>
+                                        <format>CALVER:YYYY.MM.DD[.MODIFIER]</format>
                                     </versionPattern>
                                 </project>
                                 <signing>
