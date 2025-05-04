@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>boba</artifactId>
+    <name>Boba</name>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>

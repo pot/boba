@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>boba-ansi</artifactId>
+    <name>Ansi</name>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
