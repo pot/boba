@@ -35,7 +35,7 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:https://github.com/pot/boba.git</connection>
+        <connection>scm:git:git://https://github.com/pot/boba.git</connection>
         <developerConnection>scm:git:ssh://github.com:pot/boba.git</developerConnection>
         <url>https://github.com/pot/boba/tree/main</url>
     </scm>
@@ -44,7 +44,6 @@
         <module>core</module>
         <module>ansi</module>
     </modules>
-
 
     <build>
         <plugins>
