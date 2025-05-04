@@ -9,6 +9,8 @@ public interface Msg {
     record InteruptMsg() implements Msg {}
     record SetTitleMsg(String title) implements Msg {}
     record WindowSizeMsg(int height, int width) implements Msg {}
+    record SetWindowMinSizeMsg(int height, int width) implements Msg {}
+    record RemoveWindowMinSizeMsg() implements Msg {}
     record RepaintMsg() implements Msg {}
     record ClearScrollAreaMsg() implements Msg {}
     record ScrollUpMsg(String[] lines, int topBoundary, int bottomBoundary) implements Msg {}

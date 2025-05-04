@@ -1,6 +1,7 @@
 package dev.weisz.boba;
 
 import dev.weisz.boba.tea.Msg;
+import dev.weisz.boba.terminal.WinSize;
 
 public final class NilRenderer implements Renderer {
     private static final NilRenderer INSTANCE = new NilRenderer();
@@ -132,5 +133,10 @@ public final class NilRenderer implements Renderer {
 
     @Override
     public void handleMessages(Msg msg) {
+    }
+
+    @Override
+    public WinSize getWinSize() {
+        return null;
     }
 }

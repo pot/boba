@@ -28,7 +28,12 @@ final class WindowsTerminal extends Terminal {
     }
 
     @Override
-    public TerminalSize getTerminalSize() {
+    public WinSize getWinSize() {
         return null;
+    }
+
+    @Override
+    public void setWinSize(WinSize winSize) {
+
     }
 }
