@@ -92,7 +92,7 @@
                                 <project>
                                     <copyright>2025</copyright>
                                     <versionPattern>
-                                        <type>CALVER</type>
+                                        <type>CALVER:YYYY.0M.0D</type>
                                     </versionPattern>
                                 </project>
                                 <signing>
