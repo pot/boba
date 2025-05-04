@@ -55,4 +55,4 @@ it logs to a file called app.log, but it is highly recommended to either disable
 - [ ] Look at MacTerminal#makeCooked (figure out why its not working)
 
 ## Versioning
-We follow the [Calendar Versioning](https://calver.org) schema (YYYY.0M.0D)
+We follow the [Calendar Versioning](https://calver.org) schema (YYYY.M.D[.MODIFIER])
