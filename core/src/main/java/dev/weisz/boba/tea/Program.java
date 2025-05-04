@@ -106,10 +106,6 @@ public abstract class Program<Model> {
             renderer.enableReportFocus();
         }
 
-        if (opts.minWinSize() != null) {
-            setMinWinSize(opts.minWinSize());
-        }
-
         // set initial size inside the renderer
         processCmd(() -> {
             WinSize WinSize = terminal.getWinSize();
@@ -164,29 +160,6 @@ public abstract class Program<Model> {
 
                 case Msg.SetTitleMsg(String title) ->
                     renderer.setWindowTitle(title);
-
-                case Msg.WindowSizeMsg(int height, int width) -> {
-                    LOGGER.info("Window size changed to: {}", new WinSize(height, width));
-                    if (height < minWinSize.height() || width < minWinSize.width()) {
-                        terminal.setWinSize(new WinSize(
-                                Math.max(height, minWinSize.height()),
-                                Math.max(width, minWinSize.width())
-                        ));
-
-                        LOGGER.info("Window size was below min size. Resized to: {}", getWinSize());
-                    }
-                }
-
-                case Msg.SetWindowMinSizeMsg(_, _) -> {
-                    WinSize currentSize = getWinSize();
-                    if (currentSize.height() < minWinSize.height() || currentSize.width() < minWinSize.width()) {
-                        terminal.setWinSize(new WinSize(
-                                Math.max(currentSize.height(), minWinSize.height()),
-                                Math.max(currentSize.width(), minWinSize.width())
-                        ));
-                    }
-                }
-
 
                 case BatchCmd.BatchMsg(List<Cmd> cmds) ->
                     cmds.forEach(this::processCmd);

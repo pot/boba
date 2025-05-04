@@ -43,5 +43,4 @@ public sealed abstract class Terminal
     public abstract void makeRaw(int fd);
     public abstract void makeCooked(int fd);
     public abstract WinSize getWinSize();
-    public abstract void setWinSize(WinSize winSize);
 }

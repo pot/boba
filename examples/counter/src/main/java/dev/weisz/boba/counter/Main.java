@@ -10,7 +10,6 @@ public class Main {
 
         ProgramOpts opts = ProgramOpts.builder()
                 .startupTitle("Counter")
-                .minWinSize(new WinSize(50, 50))
                 .build();
 
         program.run(model, opts);

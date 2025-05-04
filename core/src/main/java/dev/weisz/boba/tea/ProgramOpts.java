@@ -20,8 +20,7 @@ public record ProgramOpts(
         boolean withoutRenderer,
         int fps,
         boolean reportFocusChange,
-        String startupTitle,
-        @Nullable WinSize minWinSize
+        String startupTitle
 
 ) {
     private static final int MIN_FPS = 1;
@@ -45,7 +44,6 @@ public record ProgramOpts(
         private int fps = DEFAULT_FPS;
         private boolean reportFocusChange = true;
         private String startupTitle = "";
-        private @Nullable WinSize minWinSize;
 
         public Builder output(OutputStream output) {
             this.output = output;
@@ -109,11 +107,6 @@ public record ProgramOpts(
             return this;
         }
 
-        public Builder minWinSize(WinSize minWinSize) {
-            this.minWinSize = minWinSize;
-            return this;
-        }
-
         public ProgramOpts build() {
             return new ProgramOpts(
                     output,
@@ -127,8 +120,7 @@ public record ProgramOpts(
                     withoutRenderer,
                     fps,
                     reportFocusChange,
-                    startupTitle,
-                    minWinSize
+                    startupTitle
             );
         }
     }
