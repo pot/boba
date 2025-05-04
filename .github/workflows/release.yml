@@ -28,7 +28,7 @@ jobs:
         run: |
           mvn clean
           mvn jar:jar deploy:deploy 
-          mvn -Prelease verify jreleaser:deploy -X
+          mvn -Prelease verify jreleaser:deploy
         env:
           JRELEASER_NEXUS2_USERNAME: ${{ secrets.JRELEASER_NEXUS2_USERNAME }}
           JRELEASER_NEXUS2_PASSWORD: ${{ secrets.JRELEASER_NEXUS2_PASSWORD }}
