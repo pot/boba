@@ -59,24 +59,50 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.13.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.3</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
             </plugin>
         </plugins>
     </build>
 
+
     <profiles>
         <profile>
             <id>release</id>
-            <properties>
-                <altDeploymentRepository>local::file:./target/staging-deploy</altDeploymentRepository>
-            </properties>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.4.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadoc</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.3.1</version>
+                        <version>3.2.1</version>
                         <executions>
                             <execution>
                                 <id>attach-source</id>
@@ -89,16 +115,12 @@
                     <plugin>
                         <groupId>org.jreleaser</groupId>
                         <artifactId>jreleaser-maven-plugin</artifactId>
-                        <version>1.18.0</version>
+                        <version>1.11.0</version>
                         <configuration>
                             <jreleaser>
                                 <project>
                                     <copyright>2025</copyright>
-                                    <versionPattern>
-                                        <type>SEMVER</type>
-<!--                                        <type>CALVER</type>-->
-<!--                                        <format>CALVER:YYYY.MM.DD[.MODIFIER]</format>-->
-                                    </versionPattern>
+                                    <versionPattern><type>CHRONVER</type></versionPattern>
                                 </project>
                                 <signing>
                                     <active>ALWAYS</active>
@@ -109,8 +131,7 @@
                                         <nexus2>
                                             <maven-central>
                                                 <active>ALWAYS</active>
-                                                <url>https://s01.oss.sonatype.org/service/local</url>
-                                                <snapshotUrl>https://s01.oss.sonatype.org/content/repositories/snapshots</snapshotUrl>
+                                                <url>https://s01.oss.sonatype.org/service/local</url>;
                                                 <closeRepository>true</closeRepository>
                                                 <releaseRepository>true</releaseRepository>
                                                 <stagingRepositories>target/staging-deploy</stagingRepositories>
