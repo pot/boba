@@ -35,7 +35,7 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/pot/boba.git</connection>
+        <connection>scm:git:https://github.com/pot/boba.git</connection>
         <developerConnection>scm:git:ssh://github.com:pot/boba.git</developerConnection>
         <url>https://github.com/pot/boba/tree/main</url>
     </scm>
@@ -95,8 +95,9 @@
                                 <project>
                                     <copyright>2025</copyright>
                                     <versionPattern>
-                                        <type>CALVER</type>
-                                        <format>CALVER:YYYY.MM.DD[.MODIFIER]</format>
+                                        <type>SEMVER</type>
+<!--                                        <type>CALVER</type>-->
+<!--                                        <format>CALVER:YYYY.MM.DD[.MODIFIER]</format>-->
                                     </versionPattern>
                                 </project>
                                 <signing>
@@ -120,7 +121,6 @@
                             </jreleaser>
                         </configuration>
                     </plugin>
-
                 </plugins>
             </build>
         </profile>

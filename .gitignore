@@ -44,3 +44,4 @@ app.log
 
 **/*.err.txt
 **/*.app.log
+.jreleaser/
