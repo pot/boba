@@ -92,6 +92,9 @@ final class MacTerminal_arm64 extends Terminal {
 
     @Override
     public void setWinSize(WinSize winSize) {
+        try (var arena = Arena.ofConfined()) {
+            MemorySegment size = winsize.allocate(arena);
 
+        }
     }
 }
