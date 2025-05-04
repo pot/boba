@@ -15,6 +15,11 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * The main class that handles rendering and all {@link Msg}'s.
+ *
+ * @param <Model>
+ */
 public abstract class Program<Model> {
     private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
 
