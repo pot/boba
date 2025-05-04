@@ -81,6 +81,13 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>local-staging-repo</id>
+            <name>Local Staging Repository</name>
+            <url>file://${project.build.directory}/staging-deploy</url>
+        </repository>
+    </distributionManagement>
 
     <profiles>
         <profile>
