@@ -129,15 +129,23 @@
                                 </signing>
                                 <deploy>
                                     <maven>
+                                        <mavenCentral>
+                                            <release-deploy>
+                                                <active>RELEASE</active>
+                                                <url>https://central.sonatype.com/api/v1/publisher</url>
+                                                <stagingRepositories>target/staging-deploy</stagingRepositories>
+                                            </release-deploy>
+                                        </mavenCentral>
                                         <nexus2>
-                                            <maven-central>
-                                                <active>ALWAYS</active>
-                                                <url>https://s01.oss.sonatype.org/service/local</url>
-                                                <snapshotUrl>https://s01.oss.sonatype.org/content/repositories/snapshots</snapshotUrl>
+                                            <snapshot-deploy>
+                                                <active>SNAPSHOT</active>
+                                                <snapshotUrl>https://central.sonatype.com/repository/maven-snapshots</snapshotUrl>
+                                                <applyMavenCentralRules>true</applyMavenCentralRules>
+                                                <snapshotSupported>true</snapshotSupported>
                                                 <closeRepository>true</closeRepository>
                                                 <releaseRepository>false</releaseRepository>
                                                 <stagingRepositories>target/staging-deploy</stagingRepositories>
-                                            </maven-central>
+                                            </snapshot-deploy>
                                         </nexus2>
                                     </maven>
                                 </deploy>

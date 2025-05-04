@@ -30,8 +30,10 @@ jobs:
           mvn jar:jar deploy:deploy 
           mvn -Prelease verify jreleaser:deploy
         env:
-          JRELEASER_NEXUS2_USERNAME: ${{ secrets.JRELEASER_NEXUS2_USERNAME }}
-          JRELEASER_NEXUS2_PASSWORD: ${{ secrets.JRELEASER_NEXUS2_PASSWORD }}
+          JRELEASER_NEXUS2_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          JRELEASER_NEXUS2_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.SONATYPE_GPG_PASSPHRASE }}
           JRELEASER_GPG_SECRET_KEY: ${{ secrets.SONATYPE_GPG_PRIVATE_KEY }}
           JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.SONATYPE_GPG_PUBLIC_KEY }}
