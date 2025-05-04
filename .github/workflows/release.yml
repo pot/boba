@@ -25,7 +25,7 @@ jobs:
           cache: 'maven'
 
       - name: Release with JReleaser
-        run: mvn clean package jreleaser:full-release -Prelease -pl core,ansi
+        run: mvn clean package jreleaser:full-release -Prelease -pl core,ansi -X
         env:
           JJRELEASER_DEPLOY_MAVEN_NEXUS2_GPG_PASSPHRASE: ${{ secrets.SONATYPE_GPG_PASSPHRASE }}
           JJRELEASER_DEPLOY_MAVEN_NEXUS2_GPG_SECRET_KEY: ${{ secrets.SONATYPE_GPG_PRIVATE_KEY }}
