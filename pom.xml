@@ -89,9 +89,6 @@
                         <version>1.18.0</version>
                         <configuration>
                             <jreleaser>
-                                <dry>
-                                    <run>true</run>
-                                </dry>
                                 <project>
                                     <copyright>2025</copyright>
                                     <versionPattern>
