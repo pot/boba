@@ -25,7 +25,7 @@ jobs:
           cache: 'maven'
 
       - name: Release with JReleaser
-        run: ./mvnw -Prelease deploy jreleaser:deploy -DaltDeploymentRepository=local::default::file:./target/staging-deploy -X
+        run: mvn -Prelease deploy jreleaser:deploy -DaltDeploymentRepository=local::default::file:./target/staging-deploy -X
         env:
           JRELEASER_NEXUS2_USERNAME: ${{ secrets.JRELEASER_NEXUS2_USERNAME }}
           JRELEASER_NEXUS2_PASSWORD: ${{ secrets.JRELEASER_NEXUS2_PASSWORD }}
