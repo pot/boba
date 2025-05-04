@@ -1,6 +1,7 @@
 package dev.weisz.boba;
 
 import dev.weisz.boba.tea.Msg;
+import dev.weisz.boba.terminal.WinSize;
 
 public interface Renderer {
     // Start the renderer.
@@ -83,4 +84,6 @@ public interface Renderer {
 
     // handle any internal messages like update window size ect
     void handleMessages(Msg msg);
+
+    WinSize getWinSize();
 }

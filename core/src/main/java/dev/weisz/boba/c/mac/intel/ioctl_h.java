@@ -4,10 +4,13 @@ package dev.weisz.boba.c.mac.intel;
 
 import java.lang.invoke.*;
 import java.lang.foreign.*;
+import java.nio.ByteOrder;
 import java.util.*;
+import java.util.function.*;
 import java.util.stream.*;
 
 import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 public class ioctl_h {
 
@@ -760,6 +763,15 @@ public class ioctl_h {
      */
     public static long TIOCGWINSZ() {
         return TIOCGWINSZ;
+    }
+    private static final long TIOCSWINSZ = 2148037735L;
+    /**
+     * {@snippet lang=c :
+     * #define TIOCSWINSZ 2148037735
+     * }
+     */
+    public static long TIOCSWINSZ() {
+        return TIOCSWINSZ;
     }
     private static final int NOFLSH = (int)2147483648L;
     /**

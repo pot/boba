@@ -59,7 +59,7 @@ final class LinuxTerminal_x64 extends Terminal {
     }
 
     @Override
-    public TerminalSize getTerminalSize() {
+    public WinSize getWinSize() {
         return null;
     }
 }

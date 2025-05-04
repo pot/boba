@@ -1,6 +1,6 @@
 package dev.weisz.ansi.parser;
 
-import dev.weisz.wcwidth.WCWidth;
+import dev.mccue.wcwidth.WCWidth;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

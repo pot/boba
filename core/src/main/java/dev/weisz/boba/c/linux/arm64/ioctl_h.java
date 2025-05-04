@@ -4,10 +4,13 @@ package dev.weisz.boba.c.linux.arm64;
 
 import java.lang.invoke.*;
 import java.lang.foreign.*;
+import java.nio.ByteOrder;
 import java.util.*;
+import java.util.function.*;
 import java.util.stream.*;
 
 import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 public class ioctl_h {
 
@@ -91,6 +94,15 @@ public class ioctl_h {
      */
     public static int TIOCGWINSZ() {
         return TIOCGWINSZ;
+    }
+    private static final int TIOCSWINSZ = (int)21524L;
+    /**
+     * {@snippet lang=c :
+     * #define TIOCSWINSZ 21524
+     * }
+     */
+    public static int TIOCSWINSZ() {
+        return TIOCSWINSZ;
     }
     private static final int EBADF = (int)9L;
     /**

@@ -5,6 +5,8 @@ import org.jspecify.annotations.Nullable;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import dev.weisz.boba.terminal.WinSize;
+
 // TODO: add filters (needs to be more thought through) we could consider something like the spring web filter chains
 public record ProgramOpts(
         OutputStream output,

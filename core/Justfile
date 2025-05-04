@@ -62,6 +62,7 @@ extract_mac ARCH PATH="jextract":
         --include-constant TIOCGETA \
         --include-constant TIOCSETA \
         --include-constant TIOCGWINSZ \
+        --include-constant TIOCSWINSZ \
         --include-constant TCGETS \
         --include-constant TCSETS \
         --include-constant IGNBRK \
@@ -126,6 +127,7 @@ extract_linux ARCH PATH="jextract":
         --include-constant OPOST \
         --include-constant ONLCR \
         --include-constant TIOCGWINSZ \
+        --include-constant TIOCSWINSZ \
         --include-constant OCRNL \
         --include-constant ONOCR \
         --include-constant ONLRET \

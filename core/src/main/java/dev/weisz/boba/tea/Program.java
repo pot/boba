@@ -3,7 +3,7 @@ package dev.weisz.boba.tea;
 import dev.weisz.boba.Renderer;
 import dev.weisz.boba.StandardRenderer;
 import dev.weisz.boba.terminal.Terminal;
-import dev.weisz.boba.terminal.TerminalSize;
+import dev.weisz.boba.terminal.WinSize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.misc.Signal;
@@ -17,10 +17,27 @@ public abstract class Program<Model> {
     private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
 
     private final BlockingQueue<Msg> msgQueue = new LinkedBlockingQueue<>();
+    private Terminal terminal;
     private Renderer renderer;
+    private WinSize minWinSize;
 
     protected abstract UpdateResult<Model> update(Model model, Msg msg);
     protected abstract String view(Model model);
+
+    public WinSize getWinSize() {
+        return renderer.getWinSize();
+    }
+
+    public void setMinWinSize(WinSize minWinSize) {
+        this.minWinSize = minWinSize;
+
+        if (minWinSize == null) {
+            processCmd(Msg.RemoveWindowMinSizeMsg::new);
+            return;
+        }
+
+        processCmd(() -> new Msg.SetWindowMinSizeMsg(minWinSize.height(), minWinSize.width()));
+    }
 
     public Model run(Model model, ProgramOpts opts) {
         // this might not support any other input and output streams than the default ones
@@ -28,7 +45,7 @@ public abstract class Program<Model> {
         // 0 = input
         // 1 = output
         // ref look at FileDescriptor.java
-        Terminal terminal = Terminal.create();
+        terminal = Terminal.create();
         if (!terminal.isTerminal(0)) {
             throw new UnsupportedOperationException("The system input is not a terminal.");
         }
@@ -59,8 +76,8 @@ public abstract class Program<Model> {
         // https://issues.apache.org/jira/browse/HADOOP-19329
         Signal.handle(new Signal("WINCH"), _ -> {
             processCmd(() -> {
-                TerminalSize terminalSize = terminal.getTerminalSize();
-                return new Msg.WindowSizeMsg(terminalSize.height(), terminalSize.width());
+                WinSize WinSize = terminal.getWinSize();
+                return new Msg.WindowSizeMsg(WinSize.height(), WinSize.width());
             });
         });
 
@@ -91,8 +108,8 @@ public abstract class Program<Model> {
 
         // set initial size inside the renderer
         processCmd(() -> {
-            TerminalSize terminalSize = terminal.getTerminalSize();
-            return new Msg.WindowSizeMsg(terminalSize.height(), terminalSize.width());
+            WinSize WinSize = terminal.getWinSize();
+            return new Msg.WindowSizeMsg(WinSize.height(), WinSize.width());
         });
 
         renderer.start();

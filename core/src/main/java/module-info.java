@@ -6,8 +6,8 @@ module dev.weisz.boba {
     requires org.jspecify;
     requires jdk.unsupported;
     requires dev.weisz.ansi;
-    requires dev.weisz.wcwidth;
-    requires dev.weisz.color.terminal;
+    requires dev.mccue.wcwidth;
+    requires dev.mccue.color.terminal;
     requires org.apache.commons.lang3;
     requires org.slf4j;
 }

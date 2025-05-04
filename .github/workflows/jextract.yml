@@ -71,7 +71,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: headers-${{ matrix.os }}-${{ matrix.arch }}
-          path: core/src/main/java/dev/mccue/boba/c/
+          path: core/src/main/java/dev/weisz/boba/c/
 
   commit:
     needs: extract
@@ -84,7 +84,7 @@ jobs:
           path: artifacts
       - name: Copy headers
         run: |
-          cp -r artifacts/*/* core/src/main/java/dev/mccue/boba/c/
+          cp -r artifacts/*/* core/src/main/java/dev/weisz/boba/c/
           rm -rf artifacts
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:

@@ -3,6 +3,7 @@ package dev.weisz.boba;
 import dev.weisz.ansi.*;
 import dev.weisz.ansi.parser.Width;
 import dev.weisz.boba.tea.Msg;
+import dev.weisz.boba.terminal.WinSize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -371,5 +372,10 @@ public class StandardRenderer implements Renderer {
 
             default -> {}
         }
+    }
+
+    @Override
+    public WinSize getWinSize() {
+        return new WinSize(height, width);
     }
 }
