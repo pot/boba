@@ -13,6 +13,7 @@
     <artifactId>boba</artifactId>
     <name>Boba</name>
     <description>A java library for building terminal user interfaces</description>
+    <url>https://github.com/pot/boba</url>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>

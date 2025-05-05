@@ -13,6 +13,7 @@
     <artifactId>boba-ansi</artifactId>
     <name>Ansi</name>
     <description>A package providing various utilities for working with ANSI escape sequences</description>
+    <url>https://github.com/pot/boba</url>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
