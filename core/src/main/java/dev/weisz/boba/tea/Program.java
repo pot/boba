@@ -19,24 +19,12 @@ public abstract class Program<Model> {
     private final BlockingQueue<Msg> msgQueue = new LinkedBlockingQueue<>();
     private Terminal terminal;
     private Renderer renderer;
-    private WinSize minWinSize;
 
     protected abstract UpdateResult<Model> update(Model model, Msg msg);
     protected abstract String view(Model model);
 
     public WinSize getWinSize() {
         return renderer.getWinSize();
-    }
-
-    public void setMinWinSize(WinSize minWinSize) {
-        this.minWinSize = minWinSize;
-
-        if (minWinSize == null) {
-            processCmd(Msg.RemoveWindowMinSizeMsg::new);
-            return;
-        }
-
-        processCmd(() -> new Msg.SetWindowMinSizeMsg(minWinSize.height(), minWinSize.width()));
     }
 
     public Model run(Model model, ProgramOpts opts) {
