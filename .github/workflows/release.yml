@@ -27,6 +27,7 @@ jobs:
       - name: Release with JReleaser
         run: |
           mvn clean
+          mvn -Prelease
           mvn -Prelease verify jreleaser:deploy -X
         env:
           JRELEASER_NEXUS2_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
