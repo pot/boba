@@ -7,10 +7,13 @@
     <parent>
         <groupId>dev.weisz</groupId>
         <artifactId>boba-parent</artifactId>
-        <version>2025.5.4</version>
+        <version>2025.5.4-alpha</version>
     </parent>
 
     <artifactId>boba-ansi</artifactId>
+    <name>Ansi</name>
+    <description>A package providing various utilities for working with ANSI escape sequences</description>
+    <url>https://github.com/pot/boba</url>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>

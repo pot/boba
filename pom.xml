@@ -4,8 +4,10 @@
 
     <groupId>dev.weisz</groupId>
     <artifactId>boba-parent</artifactId>
-    <version>2025.5.4</version>
+    <version>2025.5.4-alpha</version>
     <packaging>pom</packaging>
+    <url>https://github.com/pot/boba</url>
+    <name>Boba Parent</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,7 +37,7 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:https://github.com/pot/boba.git</connection>
+        <connection>scm:git:git://https://github.com/pot/boba.git</connection>
         <developerConnection>scm:git:ssh://github.com:pot/boba.git</developerConnection>
         <url>https://github.com/pot/boba/tree/main</url>
     </scm>
@@ -44,7 +46,6 @@
         <module>core</module>
         <module>ansi</module>
     </modules>
-
 
     <build>
         <plugins>
@@ -59,11 +60,34 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.13.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.3</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>local-staging-repo</id>
+            <name>Local Staging Repository</name>
+            <url>file://${project.build.directory}/staging-deploy</url>
+        </repository>
+    </distributionManagement>
 
     <profiles>
         <profile>
@@ -72,17 +96,34 @@
                 <altDeploymentRepository>local::file:./target/staging-deploy</altDeploymentRepository>
             </properties>
             <build>
+                <defaultGoal>deploy</defaultGoal>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.3.1</version>
+                        <version>3.2.1</version>
                         <executions>
                             <execution>
                                 <id>attach-source</id>
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.6.3</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <attach>true</attach>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -95,9 +136,8 @@
                                 <project>
                                     <copyright>2025</copyright>
                                     <versionPattern>
-                                        <type>SEMVER</type>
-<!--                                        <type>CALVER</type>-->
-<!--                                        <format>CALVER:YYYY.MM.DD[.MODIFIER]</format>-->
+                                        <type>CALVER</type>
+                                        <format>YYYY.MM.DD[-MODIFIER]</format>
                                     </versionPattern>
                                 </project>
                                 <signing>
@@ -106,15 +146,24 @@
                                 </signing>
                                 <deploy>
                                     <maven>
-                                        <nexus2>
-                                            <maven-central>
-                                                <active>ALWAYS</active>
-                                                <url>https://s01.oss.sonatype.org/service/local</url>
-                                                <snapshotUrl>https://s01.oss.sonatype.org/content/repositories/snapshots</snapshotUrl>
-                                                <closeRepository>true</closeRepository>
-                                                <releaseRepository>true</releaseRepository>
+                                        <mavenCentral>
+                                            <release-deploy>
+                                                <active>RELEASE</active>
+                                                <url>https://central.sonatype.com/api/v1/publisher</url>
                                                 <stagingRepositories>target/staging-deploy</stagingRepositories>
-                                            </maven-central>
+                                            </release-deploy>
+                                        </mavenCentral>
+                                        <nexus2>
+                                            <snapshot-deploy>
+                                                <active>SNAPSHOT</active>
+                                                <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+                                                <snapshotUrl>https://central.sonatype.com/repository/maven-snapshots</snapshotUrl>
+                                                <applyMavenCentralRules>true</applyMavenCentralRules>
+                                                <snapshotSupported>true</snapshotSupported>
+                                                <closeRepository>true</closeRepository>
+                                                <releaseRepository>false</releaseRepository>
+                                                <stagingRepositories>target/staging-deploy</stagingRepositories>
+                                            </snapshot-deploy>
                                         </nexus2>
                                     </maven>
                                 </deploy>
