@@ -139,6 +139,7 @@
                                         <nexus2>
                                             <snapshot-deploy>
                                                 <active>SNAPSHOT</active>
+                                                <url>https://central.sonatype.com/repository/maven-snapshots/</url>
                                                 <snapshotUrl>https://central.sonatype.com/repository/maven-snapshots</snapshotUrl>
                                                 <applyMavenCentralRules>true</applyMavenCentralRules>
                                                 <snapshotSupported>true</snapshotSupported>
