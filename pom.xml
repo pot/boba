@@ -137,7 +137,7 @@
 <!--                                            </release-deploy>-->
 <!--                                        </mavenCentral>-->
                                         <nexus2>
-                                            <snapshot-deploy>
+                                            <maven-central>
                                                 <active>SNAPSHOT</active>
                                                 <snapshotUrl>https://central.sonatype.com/repository/maven-snapshots</snapshotUrl>
                                                 <applyMavenCentralRules>true</applyMavenCentralRules>
@@ -145,7 +145,7 @@
                                                 <closeRepository>true</closeRepository>
                                                 <releaseRepository>false</releaseRepository>
                                                 <stagingRepositories>target/staging-deploy</stagingRepositories>
-                                            </snapshot-deploy>
+                                            </maven-central>
                                         </nexus2>
                                     </maven>
                                 </deploy>
