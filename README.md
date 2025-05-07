@@ -1,4 +1,6 @@
 # Boba
+![Maven Central Version](https://img.shields.io/maven-central/v/dev.weisz/boba)
+
 
 A Java port of [Bubble Tea](https://github.com/charmbracelet/bubbletea), a powerful terminal UI framework. Boba enables the creation of rich terminal user interfaces including games using a functional, message-passing architecture.
 
