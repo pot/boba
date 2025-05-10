@@ -53,7 +53,6 @@ it logs to a file called app.log, but it is highly recommended to either disable
 - [ ] Non char inputs (arrow keys, control, combinations, ect..)
 - [ ] Mouse scrolling support
 - [ ] Layout API
-- [ ] Min win size option. Can stop movement with native code by settings win size
 - [ ] Look at MacTerminal#makeCooked (figure out why its not working)
 
 ## Versioning
