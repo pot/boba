@@ -90,7 +90,7 @@ public class StandardRenderer implements Renderer {
                 }
 
                 if (Width.width(line) < width) {
-                    line += Screen.ERASE_LINE_RIGHT;
+                    line += EscapeSequences.eraseInLine(0);
                 }
 
                 // we need to truncate some stuff here
@@ -102,7 +102,7 @@ public class StandardRenderer implements Renderer {
             }
 
             if (lastRenderedLines.size() > newLines.size()) {
-                buffer.writeBytes(Screen.ERASE_SCREEN_BELOW.getBytes(StandardCharsets.UTF_8));
+                buffer.writeBytes(EscapeSequences.eraseInDisplay().getBytes(StandardCharsets.UTF_8));
             }
 
             if (altScreen) {
@@ -179,7 +179,7 @@ public class StandardRenderer implements Renderer {
     @Override
     public void clearScreen() {
         synchronized (this) {
-            execute(Screen.ERASE_ENTIRE_SCREEN);
+            execute(EscapeSequences.eraseInDisplay(2));
             execute(EscapeSequences.moveCursorOrigin());
 
             repaint();
@@ -320,7 +320,7 @@ public class StandardRenderer implements Renderer {
     @Override
     public void setWindowTitle(String title) {
         synchronized (this) {
-            execute(Screen.setWindowTitle(title));
+            execute(EscapeSequences.setWindowTitle(title));
         }
     }
 

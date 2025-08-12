@@ -294,6 +294,40 @@ public final class EscapeSequences {
     public static String requestPrimaryDeviceAttributes() {
         return "\u001b[c";
     }
+
+    /// eraseInDisplay is a control sequence that erases all the characters
+    /// on the display.
+    ///
+    /// ED
+    public static String eraseInDisplay() {
+        return eraseInDisplay(0);
+    }
+
+    /// eraseInDisplay is a control sequence that erases certain characters
+    /// on the display depending on the param argument.
+    ///
+    /// @param param - 0 = 	Erase from the active position to the end of the screen, inclusive (default)
+    ///                1 = Erase from start of the screen to the active position, inclusive
+    ///                2 = Erase all of the display – all lines are erased, changed to single-width, and the cursor does not move.
+    public static String eraseInDisplay(int param) {
+        return "\u001b[" + param + "J";
+    }
+
+    /// eraseInLine (EL) is a control sequence that erases the entire active
+    /// line.
+    public static String eraseInLine() {
+        return eraseInLine(2);
+    }
+
+    /// eraseInLine (EL) is a control sequence that erases specific or all characters
+    /// in the active line.
+    ///
+    /// @param param - 0 = Erase from the active position to the end of the line, inclusive (default)
+    ///                1 = Erase from the start of the screen to the active position, inclusive
+    ///                3 = Erase all the line, inclusive
+    public static String eraseInLine(int param) {
+        return "\u001b[" + param + "K";
+    }
 /*
     /// setForegroundColor returns a sequence that sets the default terminal
     /// foreground color.
