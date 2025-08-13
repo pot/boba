@@ -17,7 +17,7 @@
             <dependency>
                 <groupId>dev.weisz</groupId>
                 <artifactId>boba</artifactId>
-                <version>2025.5.4-alpha</version>
+                <version>2025.8.12-alpha</version>
             </dependency>
             <dependency>
                 <groupId>dev.mccue</groupId>

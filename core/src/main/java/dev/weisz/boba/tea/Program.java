@@ -4,6 +4,7 @@ import dev.weisz.boba.Renderer;
 import dev.weisz.boba.StandardRenderer;
 import dev.weisz.boba.terminal.Terminal;
 import dev.weisz.boba.terminal.WinSize;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.misc.Signal;
@@ -13,21 +14,21 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public abstract class Program<Model> {
+public abstract class Program {
     private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
 
     private final BlockingQueue<Msg> msgQueue = new LinkedBlockingQueue<>();
     private Terminal terminal;
     private Renderer renderer;
 
-    protected abstract UpdateResult<Model> update(Model model, Msg msg);
-    protected abstract String view(Model model);
+    protected abstract @Nullable Cmd update(Msg msg);
+    protected abstract String view();
 
     public WinSize getWinSize() {
         return renderer.getWinSize();
     }
 
-    public Model run(Model model, ProgramOpts opts) {
+    public void run(ProgramOpts opts) {
         // this might not support any other input and output streams than the default ones
         // we will support another mode of input like tty later
         // 0 = input
@@ -101,7 +102,7 @@ public abstract class Program<Model> {
         });
 
         renderer.start();
-        renderer.write(view(model));
+        renderer.write(view());
 
         LOGGER.debug("Program started with initial frame printed.");
 
@@ -114,34 +115,31 @@ public abstract class Program<Model> {
             terminal.makeCooked(0);
         }));
 
-        Model finalModel;
         try {
-            finalModel = eventLoop(model);
+            eventLoop();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException(e);
         }
 
         // write last frame
-        renderer.write(view(finalModel));
-
-        return finalModel;
+        renderer.write(view());
     }
 
     /**
      * <p>Handles the processing of every message inside the {@link Program#msgQueue}, handles any
      * internal messages such as {@link Msg.QuitMsg} first. After that it passes messages onto the
-     * renderer to handle before passing it to the {@link Program#update(Object, Msg)}. When this
+     * renderer to handle before passing it to the {@link Program#update(Msg)}. When this
      * function returns a value it will indicate that the program has finished. It will only return
      * when an {@link Msg.QuitMsg} or {@link Msg.InteruptMsg} are received.</p>
      */
-    private Model eventLoop(Model model) throws InterruptedException {
+    private void eventLoop() throws InterruptedException {
         while (true) {
             Msg msg = msgQueue.take();
 
             switch (msg) {
                 case Msg.QuitMsg _ -> {
-                    return model;
+                    return;
                 }
                 case Msg.ClearScreenMsg _ ->
                     renderer.clearScreen();
@@ -157,13 +155,13 @@ public abstract class Program<Model> {
 
             renderer.handleMessages(msg);
 
-            UpdateResult<Model> updateResult = update(model, msg);
-            if (updateResult.cmd() != null) {
+            var updateCmd = update(msg);
+            if (updateCmd != null) {
                 // handle command async
-                processCmd(updateResult.cmd());
+                processCmd(updateCmd);
             }
 
-            renderer.write(view(model));
+            renderer.write(view());
         }
     }
 
