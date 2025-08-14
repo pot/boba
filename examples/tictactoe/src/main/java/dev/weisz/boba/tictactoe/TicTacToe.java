@@ -1,19 +1,24 @@
 package dev.weisz.boba.tictactoe;
 
+import dev.weisz.boba.tea.Cmd;
 import dev.weisz.boba.tea.Msg;
 import dev.weisz.boba.tea.Program;
-import dev.weisz.boba.tea.UpdateResult;
 import dev.mccue.color.terminal.ANSIColor;
 import dev.mccue.color.terminal.TerminalStyle;
 
-public class TicTacToe extends Program<TicTacToeModel> {
+public class TicTacToe extends Program {
+    private final TicTacToeModel model;
+
+    public TicTacToe() {
+        this.model = new TicTacToeModel();
+    }
 
     @Override
-    public UpdateResult<TicTacToeModel> update(TicTacToeModel model, Msg msg) {
+    public Cmd update(Msg msg) {
         switch (msg) {
             case Msg.KeyClickMsg(char key) -> {
                 if (!model.active && key != 'q') {
-                    return new UpdateResult<>(model, null);
+                    return null;
                 }
 
                 switch (key) {
@@ -51,34 +56,34 @@ public class TicTacToe extends Program<TicTacToeModel> {
             default -> {}
         }
 
-        return new UpdateResult<>(model, null);
+        return null;
     }
 
     @Override
-    protected String view(TicTacToeModel ticTacToeModel) {
+    protected String view() {
         StringBuilder builder = new StringBuilder();
         builder.append("Welcome to Boba Tic Tac Toe! Use WASD to navigate cells and F to select.\n\n\n");
 
         builder.append("Current Turn: ")
-                .append(ticTacToeModel.currentPlayer != null ? ticTacToeModel.currentPlayer : "None")
+                .append(model.currentPlayer != null ? model.currentPlayer : "None")
                 .append("\n");
 
         int colIndex = 0;
-        for (int[] col : ticTacToeModel.board) {
+        for (int[] col : model.board) {
             int rowIndex = 0;
             for (int row : col) {
                 Selector slot = Selector.fromSlot(row);
 
                 String cellValue = slot != null ? slot.toString() : " ";
-                if (ticTacToeModel.winner != null) {
+                if (model.winner != null) {
                     int finalColIndex = colIndex;
                     int finalRowIndex = rowIndex;
-                    if (ticTacToeModel.winner.winSlots().stream().anyMatch(s -> s[0] == finalColIndex && s[1] == finalRowIndex)) {
+                    if (model.winner.winSlots().stream().anyMatch(s -> s[0] == finalColIndex && s[1] == finalRowIndex)) {
                         builder.append(TerminalStyle.builder().backgroundColor(ANSIColor.BRIGHT_GREEN).apply(cellValue));
                     } else {
                         builder.append(cellValue);
                     }
-                } else if (ticTacToeModel.selectedSlot[0] == colIndex && ticTacToeModel.selectedSlot[1] == rowIndex) {
+                } else if (model.selectedSlot[0] == colIndex && model.selectedSlot[1] == rowIndex) {
                     builder.append(TerminalStyle.builder().backgroundColor(ANSIColor.BRIGHT_YELLOW).apply(cellValue));
                 } else {
                     builder.append(cellValue);
@@ -98,9 +103,9 @@ public class TicTacToe extends Program<TicTacToeModel> {
             colIndex++;
         }
 
-        if (ticTacToeModel.winner != null) {
+        if (model.winner != null) {
             builder.append("\n\n")
-                    .append(TerminalStyle.builder().backgroundColor(ANSIColor.BRIGHT_GREEN).apply("Winner: " + ticTacToeModel.winner.winner()));
+                    .append(TerminalStyle.builder().backgroundColor(ANSIColor.BRIGHT_GREEN).apply("Winner: " + model.winner.winner()));
         }
 
         return builder.toString();

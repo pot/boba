@@ -1,12 +1,14 @@
 package dev.weisz.boba.counter;
 
+import dev.weisz.boba.tea.Cmd;
 import dev.weisz.boba.tea.Msg;
 import dev.weisz.boba.tea.Program;
-import dev.weisz.boba.tea.UpdateResult;
 
-public class Counter extends Program<Model> {
+public class Counter extends Program {
+    private final Model model = new Model();
+
     @Override
-    public UpdateResult<Model> update(Model model, Msg msg) {
+    public Cmd update(Msg msg) {
         switch (msg) {
             case Increment _ -> {
                 model.count++;
@@ -26,11 +28,11 @@ public class Counter extends Program<Model> {
             default -> {}
         }
 
-        return new UpdateResult<>(model, null);
+        return null;
     }
 
     @Override
-    public String view(Model model) {
+    public String view() {
         return "Count: " + model.count + "\n'w' to increment, 's' to decrement, 'q' to quit";
     }
 }
