@@ -1,0 +1,26 @@
+name: Build All Modules
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        module:
+          - ansi
+          - core
+          - examples
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 24
+        uses: actions/setup-java@v4
+        with:
+          java-version: '24'
+          distribution: 'temurin'
+      - name: Build with Maven
+        run: mvn -B -f ${{ matrix.module }}/pom.xml clean verify
