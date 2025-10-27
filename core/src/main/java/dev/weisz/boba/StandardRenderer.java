@@ -371,6 +371,10 @@ public class StandardRenderer implements Renderer {
 
             case Msg.PrintLineMsg(String line) -> write(line);
 
+            case Msg.ClearScreenMsg ignored -> clearScreen();
+
+            case Msg.SetTitleMsg(String title) -> setWindowTitle(title);
+
             default -> {}
         }
     }

@@ -141,11 +141,6 @@ public abstract class Program {
                 case Msg.QuitMsg _ -> {
                     return;
                 }
-                case Msg.ClearScreenMsg _ ->
-                    renderer.clearScreen();
-
-                case Msg.SetTitleMsg(String title) ->
-                    renderer.setWindowTitle(title);
 
                 case BatchCmd.BatchMsg(List<Cmd> cmds) ->
                     cmds.forEach(this::processCmd);
@@ -153,6 +148,7 @@ public abstract class Program {
                 default -> { /* ignore */ }
             }
 
+            // handle all internal handling of messages
             renderer.handleMessages(msg);
 
             var updateCmd = update(msg);
@@ -161,7 +157,10 @@ public abstract class Program {
                 processCmd(updateCmd);
             }
 
-            renderer.write(view());
+            // don't force renderer to render because it already runs on a timer
+            // todo: maybe this should be toggable incase the user wants a low fps or
+            // todo: possibly only re-render on an event/command
+            //renderer.write(view());
         }
     }
 
