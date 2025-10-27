@@ -71,7 +71,7 @@ public abstract class Program {
         });
 
         // TODO: allow configurable renderer
-        renderer = new StandardRenderer(opts.output(), opts.fps());
+        renderer = new StandardRenderer(opts.output(), this::view, opts.fps());
         renderer.hideCursor();
 
         if (!opts.startupTitle().isEmpty()) {
@@ -102,7 +102,6 @@ public abstract class Program {
         });
 
         renderer.start();
-        renderer.write(view());
 
         LOGGER.debug("Program started with initial frame printed.");
 
