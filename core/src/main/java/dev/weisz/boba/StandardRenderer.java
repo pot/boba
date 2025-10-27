@@ -149,7 +149,10 @@ public class StandardRenderer implements Renderer {
                         renderEvent.begin();
                         renderEvent.activeRenderer = "Standard Renderer"; // TODO: replace with static key
 
-                        write(frameRenderer.render());
+                        var frameContent = frameRenderer.render();
+                        renderEvent.frameContent = frameContent;
+
+                        write(frameContent);
                         flush();
 
                         renderEvent.commit();
