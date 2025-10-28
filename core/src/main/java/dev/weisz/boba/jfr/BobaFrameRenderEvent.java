@@ -11,9 +11,6 @@ public class BobaFrameRenderEvent extends Event {
     @Label("Active Renderer")
     public String activeRenderer;
 
-    @Label("Frame")
-    public String frameContent; // TODO: do we really want to do all this?
-
     @Label("Frame Render Duration")
     @Description("The time that Program#view took to render the current frame")
     @Timespan(Timespan.MICROSECONDS)
