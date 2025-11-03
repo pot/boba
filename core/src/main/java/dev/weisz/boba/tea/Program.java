@@ -71,7 +71,7 @@ public abstract class Program {
         });
 
         // TODO: allow configurable renderer
-        renderer = new StandardRenderer(opts.output(), opts.fps());
+        renderer = new StandardRenderer(opts.output(), this::view, opts.fps());
         renderer.hideCursor();
 
         if (!opts.startupTitle().isEmpty()) {
@@ -102,7 +102,6 @@ public abstract class Program {
         });
 
         renderer.start();
-        renderer.write(view());
 
         LOGGER.debug("Program started with initial frame printed.");
 
@@ -119,6 +118,9 @@ public abstract class Program {
             eventLoop();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+
+
+
             throw new RuntimeException(e);
         }
 
@@ -141,11 +143,6 @@ public abstract class Program {
                 case Msg.QuitMsg _ -> {
                     return;
                 }
-                case Msg.ClearScreenMsg _ ->
-                    renderer.clearScreen();
-
-                case Msg.SetTitleMsg(String title) ->
-                    renderer.setWindowTitle(title);
 
                 case BatchCmd.BatchMsg(List<Cmd> cmds) ->
                     cmds.forEach(this::processCmd);
@@ -153,6 +150,7 @@ public abstract class Program {
                 default -> { /* ignore */ }
             }
 
+            // handle all internal handling of messages
             renderer.handleMessages(msg);
 
             var updateCmd = update(msg);
@@ -161,7 +159,10 @@ public abstract class Program {
                 processCmd(updateCmd);
             }
 
-            renderer.write(view());
+            // don't force renderer to render because it already runs on a timer
+            // todo: maybe this should be toggable incase the user wants a low fps or
+            // todo: possibly only re-render on an event/command
+            //renderer.write(view());
         }
     }
 

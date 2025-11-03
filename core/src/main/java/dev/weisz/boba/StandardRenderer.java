@@ -2,6 +2,7 @@ package dev.weisz.boba;
 
 import dev.weisz.ansi.*;
 import dev.weisz.ansi.parser.Width;
+import dev.weisz.boba.jfr.BobaFrameRenderEvent;
 import dev.weisz.boba.tea.Msg;
 import dev.weisz.boba.terminal.WinSize;
 import org.jspecify.annotations.Nullable;
@@ -19,6 +20,7 @@ public class StandardRenderer implements Renderer {
     private static final Logger LOGGER = LoggerFactory.getLogger(StandardRenderer.class);
 
     private final OutputStream out;
+    private final RenderCallback frameRenderer;
     private final int fps;
 
     private @Nullable Timer timer; // timer that calls the flush function (started based on fps)
@@ -40,8 +42,9 @@ public class StandardRenderer implements Renderer {
     private String lastRender = ""; // used to check for any differences in the render
     private List<String> lastRenderedLines = new ArrayList<>();
 
-    public StandardRenderer(OutputStream out, int fps) {
+    public StandardRenderer(OutputStream out, RenderCallback frameRenderer, int fps) {
         this.out = out;
+        this.frameRenderer = frameRenderer;
         this.fps = fps;
     }
 
@@ -132,7 +135,6 @@ public class StandardRenderer implements Renderer {
         }
 
         running.set(true);
-
         timer.scheduleAtFixedRate(
                 new TimerTask() {
                     @Override
@@ -142,7 +144,17 @@ public class StandardRenderer implements Renderer {
                             return;
                         }
 
+                        // frame render will include the flush too,
+                        var renderEvent = new BobaFrameRenderEvent();
+                        renderEvent.begin();
+                        renderEvent.activeRenderer = "Standard Renderer"; // TODO: replace with static key
+
+                        var frameContent = frameRenderer.render();
+
+                        write(frameContent);
                         flush();
+
+                        renderEvent.commit();
                     }
                 },
                 0,
@@ -370,6 +382,10 @@ public class StandardRenderer implements Renderer {
             }
 
             case Msg.PrintLineMsg(String line) -> write(line);
+
+            case Msg.ClearScreenMsg ignored -> clearScreen();
+
+            case Msg.SetTitleMsg(String title) -> setWindowTitle(title);
 
             default -> {}
         }
