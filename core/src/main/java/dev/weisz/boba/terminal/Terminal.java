@@ -6,7 +6,7 @@ import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.arch.Processor;
 
 public sealed abstract class Terminal
-        permits LinuxTerminal_arm64, LinuxTerminal_x64, MacTerminal_arm64, MacTerminal_intel, WindowsTerminal {
+        permits UnixTerminal, WindowsTerminal {
     public static Terminal create() {
         Processor processor = ArchUtils.getProcessor();
         if (SystemUtils.IS_OS_UNIX) {
@@ -40,7 +40,5 @@ public sealed abstract class Terminal
     }
 
     public abstract boolean isTerminal(int fd);
-    public abstract void makeRaw(int fd);
-    public abstract void makeCooked(int fd);
     public abstract WinSize getWinSize();
 }

@@ -10,7 +10,7 @@ import java.lang.foreign.MemorySegment;
 
 import static java.lang.foreign.ValueLayout.*;
 
-final class MacTerminal_arm64 extends Terminal {
+final class MacTerminal_arm64 extends UnixTerminal {
     private MemorySegment previousSettings;
 
     MacTerminal_arm64() {}

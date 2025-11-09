@@ -179,6 +179,68 @@ public class windows_wrapper_h {
         }
     }
 
+    private static class WriteFile {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            windows_wrapper_h.C_INT,
+            windows_wrapper_h.C_POINTER,
+            windows_wrapper_h.C_POINTER,
+            windows_wrapper_h.C_LONG,
+            windows_wrapper_h.C_POINTER,
+            windows_wrapper_h.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = windows_wrapper_h.findOrThrow("WriteFile");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * BOOL WriteFile(HANDLE hFile, LPCVOID lpBuffer, DWORD nNumberOfBytesToWrite, LPDWORD lpNumberOfBytesWritten, LPOVERLAPPED lpOverlapped)
+     * }
+     */
+    public static FunctionDescriptor WriteFile$descriptor() {
+        return WriteFile.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * BOOL WriteFile(HANDLE hFile, LPCVOID lpBuffer, DWORD nNumberOfBytesToWrite, LPDWORD lpNumberOfBytesWritten, LPOVERLAPPED lpOverlapped)
+     * }
+     */
+    public static MethodHandle WriteFile$handle() {
+        return WriteFile.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * BOOL WriteFile(HANDLE hFile, LPCVOID lpBuffer, DWORD nNumberOfBytesToWrite, LPDWORD lpNumberOfBytesWritten, LPOVERLAPPED lpOverlapped)
+     * }
+     */
+    public static MemorySegment WriteFile$address() {
+        return WriteFile.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * BOOL WriteFile(HANDLE hFile, LPCVOID lpBuffer, DWORD nNumberOfBytesToWrite, LPDWORD lpNumberOfBytesWritten, LPOVERLAPPED lpOverlapped)
+     * }
+     */
+    public static int WriteFile(MemorySegment hFile, MemorySegment lpBuffer, int nNumberOfBytesToWrite, MemorySegment lpNumberOfBytesWritten, MemorySegment lpOverlapped) {
+        var mh$ = WriteFile.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("WriteFile", hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
+            }
+            return (int)mh$.invokeExact(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
     private static class DuplicateHandle {
         public static final FunctionDescriptor DESC = FunctionDescriptor.of(
             windows_wrapper_h.C_INT,
@@ -243,6 +305,67 @@ public class windows_wrapper_h {
         }
     }
 
+    private static class CreatePipe {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            windows_wrapper_h.C_INT,
+            windows_wrapper_h.C_POINTER,
+            windows_wrapper_h.C_POINTER,
+            windows_wrapper_h.C_POINTER,
+            windows_wrapper_h.C_LONG
+        );
+
+        public static final MemorySegment ADDR = windows_wrapper_h.findOrThrow("CreatePipe");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * BOOL CreatePipe(PHANDLE hReadPipe, PHANDLE hWritePipe, LPSECURITY_ATTRIBUTES lpPipeAttributes, DWORD nSize)
+     * }
+     */
+    public static FunctionDescriptor CreatePipe$descriptor() {
+        return CreatePipe.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * BOOL CreatePipe(PHANDLE hReadPipe, PHANDLE hWritePipe, LPSECURITY_ATTRIBUTES lpPipeAttributes, DWORD nSize)
+     * }
+     */
+    public static MethodHandle CreatePipe$handle() {
+        return CreatePipe.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * BOOL CreatePipe(PHANDLE hReadPipe, PHANDLE hWritePipe, LPSECURITY_ATTRIBUTES lpPipeAttributes, DWORD nSize)
+     * }
+     */
+    public static MemorySegment CreatePipe$address() {
+        return CreatePipe.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * BOOL CreatePipe(PHANDLE hReadPipe, PHANDLE hWritePipe, LPSECURITY_ATTRIBUTES lpPipeAttributes, DWORD nSize)
+     * }
+     */
+    public static int CreatePipe(MemorySegment hReadPipe, MemorySegment hWritePipe, MemorySegment lpPipeAttributes, int nSize) {
+        var mh$ = CreatePipe.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("CreatePipe", hReadPipe, hWritePipe, lpPipeAttributes, nSize);
+            }
+            return (int)mh$.invokeExact(hReadPipe, hWritePipe, lpPipeAttributes, nSize);
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
     private static class GetCurrentProcess {
         public static final FunctionDescriptor DESC = FunctionDescriptor.of(
             windows_wrapper_h.C_POINTER    );
@@ -298,6 +421,21 @@ public class windows_wrapper_h {
            throw new AssertionError("should not reach here", ex$);
         }
     }
+    /**
+     * {@snippet lang=c :
+     * typedef struct _COORD {
+     *     SHORT X;
+     *     SHORT Y;
+     * } *PCOORD
+     * }
+     */
+    public static final AddressLayout PCOORD = windows_wrapper_h.C_POINTER;
+    /**
+     * {@snippet lang=c :
+     * typedef void *HPCON
+     * }
+     */
+    public static final AddressLayout HPCON = windows_wrapper_h.C_POINTER;
 
     private static class GetConsoleMode {
         public static final FunctionDescriptor DESC = FunctionDescriptor.of(
@@ -412,6 +550,68 @@ public class windows_wrapper_h {
                 traceDowncall("SetConsoleMode", hConsoleHandle, dwMode);
             }
             return (int)mh$.invokeExact(hConsoleHandle, dwMode);
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class CreatePseudoConsole {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            windows_wrapper_h.C_LONG,
+            _COORD.layout(),
+            windows_wrapper_h.C_POINTER,
+            windows_wrapper_h.C_POINTER,
+            windows_wrapper_h.C_LONG,
+            windows_wrapper_h.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = windows_wrapper_h.findOrThrow("CreatePseudoConsole");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * HRESULT CreatePseudoConsole(COORD size, HANDLE hInput, HANDLE hOutput, DWORD dwFlags, HPCON *phPC)
+     * }
+     */
+    public static FunctionDescriptor CreatePseudoConsole$descriptor() {
+        return CreatePseudoConsole.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * HRESULT CreatePseudoConsole(COORD size, HANDLE hInput, HANDLE hOutput, DWORD dwFlags, HPCON *phPC)
+     * }
+     */
+    public static MethodHandle CreatePseudoConsole$handle() {
+        return CreatePseudoConsole.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * HRESULT CreatePseudoConsole(COORD size, HANDLE hInput, HANDLE hOutput, DWORD dwFlags, HPCON *phPC)
+     * }
+     */
+    public static MemorySegment CreatePseudoConsole$address() {
+        return CreatePseudoConsole.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * HRESULT CreatePseudoConsole(COORD size, HANDLE hInput, HANDLE hOutput, DWORD dwFlags, HPCON *phPC)
+     * }
+     */
+    public static int CreatePseudoConsole(MemorySegment size, MemorySegment hInput, MemorySegment hOutput, int dwFlags, MemorySegment phPC) {
+        var mh$ = CreatePseudoConsole.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("CreatePseudoConsole", size, hInput, hOutput, dwFlags, phPC);
+            }
+            return (int)mh$.invokeExact(size, hInput, hOutput, dwFlags, phPC);
         } catch (Throwable ex$) {
            throw new AssertionError("should not reach here", ex$);
         }

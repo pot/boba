@@ -6,7 +6,7 @@ import dev.weisz.boba.c.linux.arm64.termios;
 
 import java.lang.foreign.Arena;
 
-final class LinuxTerminal_arm64 extends Terminal {
+final class LinuxTerminal_arm64 extends UnixTerminal {
     @Override
     public boolean isTerminal(int fd) {
         var invoker = ioctl_h.ioctl.makeInvoker(termios.layout());
